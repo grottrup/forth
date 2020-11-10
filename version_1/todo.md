@@ -7,3 +7,5 @@
     // predefined dictionary
     // other dictionary for user defined functions
 // Nils
+
+//iDuck
