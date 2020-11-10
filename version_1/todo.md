@@ -6,3 +6,5 @@
     // the dictionary must be agnostic about datastructures (does not show that is uses a list)
     // predefined dictionary
     // other dictionary for user defined functions
+
+//iDuck
