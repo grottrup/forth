@@ -9,7 +9,7 @@ forth.o: forth.c
 libstack.a: stack.o
 	ar rcs $@ $?
 
-stack.o: ./library/stack/stack.c
+stack.o: stack.c
 	gcc -o $@ -c $?
 
 clean:
