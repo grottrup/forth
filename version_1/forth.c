@@ -33,7 +33,7 @@ bool is_operator(char x)
 
 void calculate(stack *s, char operator)
 {
-    int a, b, result;
+    int a, b, result;// 
     a = pop(s);
     b = pop(s);
     switch (operator)
