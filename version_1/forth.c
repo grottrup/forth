@@ -4,17 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h> //atoi
 #include "stack.h"
+#include <assert.h>
 
-#define EXIT 'q'
+#define EXIT "q"
 #define WORDS 5
 
-/**
- * @brief 
- * 
- * 
- */
  typedef struct built_in_word{
-     char operator; // which operator to execute
+     char* operator; // which operator to execute
      int(*get_result)(int*); // use an array of arguments to execute the operator on
      int para_count; // how many arguments does the operator take
  }built_in_word;
@@ -46,20 +42,22 @@ built_in_word_dict* initialize_built_in_dict(void) {
     built_in_word_dict* dict = malloc(sizeof(built_in_word_dict));
     dict->length = WORDS;
     dict->word = calloc(WORDS, sizeof(built_in_word));
-    dict->word[0] = (built_in_word){'+', add, 2};
-    dict->word[1] = (built_in_word){'-', minus, 2};
-    dict->word[2] = (built_in_word){'*', mult, 2};
-    dict->word[3] = (built_in_word){'/', divide,2};
-    dict->word[4] = (built_in_word){'~', uniminus, 1};
-
+    dict->word[0] = (built_in_word){"+", add, 2};
+    dict->word[1] = (built_in_word){"-", minus, 2};
+    dict->word[2] = (built_in_word){"*", mult, 2};
+    dict->word[3] = (built_in_word){"/", divide,2};
+    dict->word[4] = (built_in_word){"~", uniminus, 1};
+    // dict->word[0] = (built_in_word){"EMIT", emit, 2};
+    // dict->word[0] = (built_in_word){'.', dot, 2};
+    // dict->word[0] = (built_in_word){"CR", cr, 2};
+    // dict->word[0] = (built_in_word){'\"', qmark, 2};
     /* Verify initialization */
-    for (int i = 0; i < WORDS; i++) {
-        assert(dict->word[i].operator != 0 && dict->word[i].get_result != 0);
-    }
+    // for (int i = 0; i < WORDS; i++) {
+    //     assert(dict->word[i].operator != 0 && dict->word[i].get_result != 0);
+    // }
 
     return dict;
 }
-
 
 //! At the meeting get tips to:
 //  * Good ways to refactor in C dealing with ASCII in an elegant way
@@ -77,16 +75,16 @@ bool is_number(char *x)
     return false;
 }
 
-bool is_operator(char x)
+bool is_operator(char* x)
 {
-    if (x == '+' || x == '-' || x == '*' || x == '/')
+    if (x == "+" || x == "-" || x == "*" || x == "/")
     {
         return true;
     }
     return false;
 }
 
-void calculate(stack *s, char operator, built_in_word* w, int len)
+void calculate(stack *s, char* operator, built_in_word* w, int len)
 {
     int result;
     for(int i = 0; i<len; i++)
@@ -126,7 +124,8 @@ int main(void)
         }
         else
         {
-            char symbol = _input[0];
+            char* symbol = '\0';
+            sscanf(_input, " %s", symbol);
             if (is_operator(symbol))
             {
                 calculate(&_stack, symbol, dict->word, dict->length);
