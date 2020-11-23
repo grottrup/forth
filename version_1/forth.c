@@ -4,26 +4,60 @@
 #include <stdlib.h> //atoi
 #include "stack.h"
 
- #define EXIT 'q'
+#define EXIT 'q'
+#define WORDS 5
 
 /**
  * @brief 
  * 
  * 
  */
- typedef struct build_in_word{
+ typedef struct built_in_word{
      char operator; // which operator to execute
      int(*get_result)(int*); // use an array of arguments to execute the operator on
      int para_count; // how many arguments does the operator take
- }build_in_word;
+ }built_in_word;
+
+typedef struct built_in_word_dict
+{
+    built_in_word* word;
+    int length;
+} built_in_word_dict;
 
 
+int add(int* arr){
+    return arr[0]+arr[1];
+}
+int minus(int* arr){
+    return arr[0]-arr[1];
+}
+int mult(int* arr){
+    return arr[0]*arr[1];
+}
+int divide(int* arr){
+    return arr[0]/arr[1];
+}
+int uniminus(int* arr){
+    return -arr[0];
+}
 
+built_in_word_dict* initialize_built_in_dict(void) {
+    built_in_word_dict* dict = malloc(sizeof(built_in_word_dict));
+    dict->length = WORDS;
+    dict->word = calloc(WORDS, sizeof(built_in_word));
+    dict->word[0] = {'+', add, 2};
+    dict->word[1] = {'-', minus, 2};
+    dict->word[2] = {'*', mult, 2};
+    dict->word[3] = {'/', divide,2};
+    dict->word[4] = {'~', uniminus, 1};
 
+    /* Verify initialization */
+    for (int i = 0; i < WORDS; i++) {
+        assert(dict->word[i] != 0);
+    }
 
-
-
-
+    return dict;
+}
 
 
 //! At the meeting get tips to:
@@ -51,7 +85,7 @@ bool is_operator(char x)
     return false;
 }
 
-void calculate(stack *s, char operator, build_in_word* w, int len)
+void calculate(stack *s, char operator, built_in_word* w, int len)
 {
     int result;
     for(int i = 0; i<len; i++)
@@ -71,22 +105,6 @@ void calculate(stack *s, char operator, build_in_word* w, int len)
     push(s, result);
 }
 
-int add(int* arr){
-    return arr[0]+arr[1];
-}
-int minus(int x, int y){
-    return x-y;
-}
-int mult(int x, int y){
-    return x*y;
-}
-int divide(int x, int y){
-    return x/y;
-}
-
-int uniminus(int x){
-    return -x;
-}
 
 int main(void)
 {
@@ -95,7 +113,7 @@ int main(void)
     char *_input;
     bool should_continue;
 
-    build_in_word w[4] = {{'+', add, 2}, {'-', minus, 2},{'*', mult, 2}, {'/', divide,2}, {'~', uniminus, 1} };
+    built_in_word_dict* dict = initialize_built_in_dict();
 
     should_continue = true;
     while (should_continue)
@@ -110,7 +128,7 @@ int main(void)
             char symbol = _input[0];
             if (is_operator(symbol))
             {
-                calculate(&_stack, symbol);
+                calculate(&_stack, symbol, dict->word, dict->length);
             }
             else
             {
