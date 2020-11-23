@@ -112,7 +112,7 @@ void print_stack(stack* s) {
         current_node = current_node->link_below;
     } */
     print_node(current_node);
-    printf("\n");
+    printf("<- Top\n");
 }
 
 // the 
