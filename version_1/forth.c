@@ -6,25 +6,11 @@
 
  #define EXIT 'q'
 
-/**
- * @brief 
- * 
- * 
- */
  typedef struct build_in_word{
      char operator; // which operator to execute
      int(*get_result)(int*); // use an array of arguments to execute the operator on
      int para_count; // how many arguments does the operator take
  }build_in_word;
-
-
-
-
-
-
-
-
-
 
 //! At the meeting get tips to:
 //  * Good ways to refactor in C dealing with ASCII in an elegant way
@@ -95,8 +81,8 @@ int main(void)
     char *_input;
     bool should_continue;
 
-    build_in_word w[4] = {{'+', add, 2}, {'-', minus, 2},{'*', mult, 2}, {'/', divide,2}, {'~', uniminus, 1} };
-
+    build_in_word w[5] = {{'+', add, 2}, {'-', minus, 2},{'*', mult, 2}, {'/', divide,2}, {'~', uniminus, 1} };
+    // init dictionary
     should_continue = true;
     while (should_continue)
     {
