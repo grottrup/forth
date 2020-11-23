@@ -23,16 +23,16 @@ typedef struct built_in_word_dict
 
 
 int add(int* arr){
-    return arr[0]+arr[1];
+    return arr[1]+arr[0];
 }
 int minus(int* arr){
-    return arr[0]-arr[1];
+    return arr[1]-arr[0];
 }
 int mult(int* arr){
-    return arr[0]*arr[1];
+    return arr[1]*arr[0];
 }
 int divide(int* arr){
-    return arr[0]/arr[1];
+    return arr[1]/arr[0];
 }
 int uniminus(int* arr){
     return -arr[0];
@@ -104,6 +104,9 @@ void calculate(stack *s, char* operator, built_in_word* w, int len)
     push(s, result);
 }
 
+// int pseudo()
+
+
 
 int main(void)
 {
@@ -117,7 +120,8 @@ int main(void)
     should_continue = true;
     while (should_continue)
     {
-        scanf("%s", _input);
+        scanf("%s", _input); //abstract... take input, returns input val
+
         if (is_number(_input))
         {
             push(&_stack, atoi(_input));

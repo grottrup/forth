@@ -78,6 +78,23 @@ bool stack_is_empty(stack* s)
 }
 
 /**
+ * @brief Prints tail of the node, then the node itself, resulting in the bottom to the left
+ * @param n
+ */
+void print_node(node* n) {
+    node* next = n->link_below;
+    
+    if (next != NULL) {
+        print_node(next);
+        
+        int value = n->item;
+        printf("%d ", value);
+    }
+}
+
+// https://1scyem2bunjw1ghzsf1cjwwn-wpengine.netdna-ssl.com/wp-content/uploads/2018/01/Starting-FORTH.pdf
+
+/**
  * @brief Prints the stack with the top as the first element
  * @param s 
  */
@@ -89,10 +106,13 @@ void print_stack(stack* s) {
         return;
     }
     printf("Stack: ");
-    while (current_node->link_below != NULL) {
+    /* while (current_node->link_below != NULL) {
         int value = current_node->item;
         printf("%d ", value);
         current_node = current_node->link_below;
-    }
-    printf("\n");
+    } */
+    print_node(current_node);
+    printf("<- Top\n");
 }
+
+// the 
