@@ -27,16 +27,16 @@ typedef struct built_in_word_dict
 
 
 int add(int* arr){
-    return arr[0]+arr[1];
+    return arr[1]+arr[0];
 }
 int minus(int* arr){
-    return arr[0]-arr[1];
+    return arr[1]-arr[0];
 }
 int mult(int* arr){
-    return arr[0]*arr[1];
+    return arr[1]*arr[0];
 }
 int divide(int* arr){
-    return arr[0]/arr[1];
+    return arr[1]/arr[0];
 }
 int uniminus(int* arr){
     return -arr[0];
@@ -51,6 +51,8 @@ built_in_word_dict* initialize_built_in_dict(void) {
     dict->word[2] = (built_in_word){'*', mult, 2};
     dict->word[3] = (built_in_word){'/', divide,2};
     dict->word[4] = (built_in_word){'~', uniminus, 1};
+    // dict->word[5] = (built_in_word){'.', dot, 1};
+    // dict->word[6] = (built_in_word){'\"', qmark, 1};
 
     /* Verify initialization */
     for (int i = 0; i < WORDS; i++) {
@@ -106,6 +108,9 @@ void calculate(stack *s, char operator, built_in_word* w, int len)
     push(s, result);
 }
 
+// int pseudo()
+
+
 
 int main(void)
 {
@@ -119,7 +124,8 @@ int main(void)
     should_continue = true;
     while (should_continue)
     {
-        scanf("%s", _input);
+        scanf("%s", _input); //abstract... take input, returns input val
+
         if (is_number(_input))
         {
             push(&_stack, atoi(_input));
@@ -127,7 +133,7 @@ int main(void)
         else
         {
             char symbol = _input[0];
-            if (is_operator(symbol))
+            if (is_operator(symbol)) // do not mix interpretation with input/output
             {
                 calculate(&_stack, symbol, dict->word, dict->length);
             }
