@@ -1,23 +1,50 @@
 #include "dictionary.h"
+#include "operations.h"
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h> //atoi
+
 
 void test_init(void)
 {
     {
-        built_in_word_dict* dict = initialize_built_in_dict();
-        assert(c1->getTime() >= 0);
-        delete c1;
+        dictionary* dict = initialize_built_in_dict();
+        assert(dict->length > 0);
+        free(dict);
     }
     {
-        int initTime = 10;
-        Clock* c2 = new Clock(initTime);
-        assert(c2->getTime() >= initTime);
-        delete c2;
+        dictionary* dict = initialize_built_in_dict();
+        assert(dict->length >= 9); // update when the dictionary is expanded
+        free(dict);
+    }
+}
+
+void test_arithmetics(void)
+{
+    {
+        stack s = initialize_stack(); // whoops not so unifor implementation
+        push(&s, 1);
+        push(&s, 2);
+        dictionary* dict = initialize_built_in_dict();
+        for (int i = 0; i < dict->length; i++)
+        {
+            if(dict->word[i].operator = "+" )
+            {
+                printf("%d", i);
+                word w = dict->word[i];
+                execute_command(&s, &w);
+                assert(pop(&s) == 3 );
+            }
+        }
+        // free stack
+        free(dict);
     }
 }
 
 int main()
 {
-    
     test_init();
+    test_arithmetics();
+    printf("📖\n");
     return 0;
 }

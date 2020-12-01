@@ -1,32 +1,31 @@
-CFLAGS = 
-CC = gcc $(CFLAGS)
+COMPILER = gcc
 
-all: test_stack.out forth.out 
+default: test clean
 
-remake: clean all
+debug: COMPILER += -g # add debug flag
+debug: compile
 
-debug: CFLAGS += -g
-debug: all
+test: 
+	make test_stack.out 
+	make test_dictionary.out
 
-forth.out: forth.o libstack.a
-	$(CC) -o $@ $< -L. -lstack
+test_dictionary.out:
+	$(COMPILER) -c stack.c
+	$(COMPILER) -c dictionary.c
+	$(COMPILER) -c operations.c
+	ar rcs libdictionary.a dictionary.o operations.o stack.o
+	$(COMPILER) -c test_dictionary.c
+	$(COMPILER) test_dictionary.o -ldictionary -L . -o test_dictionary.out
+	./test_dictionary.out
 
-forth.o: forth.c
-	$(CC) -c $?
-
-test_stack.out: test_stack.o libstack.a
-	$(CC) -o $@ $< -L. -lstack
-
-test_stack.o: test_stack.c
-	$(CC) -c $?
-
-libstack.a: stack.o
-	ar rcs $@ $?
-
-stack.o: stack.c
-	$(CC) -o $@ -c $?
+test_stack.out:
+	$(COMPILER) -c stack.c
+	ar rcs libstack.a stack.o
+	$(COMPILER) -c test_stack.c
+	$(COMPILER) test_stack.o -lstack -L . -o test_stack.out
+	./test_stack.out
 
 clean:
-	rm -fv *.a
-	rm -fv *.o
-	rm -fv *.out
+	rm -f *.o
+	rm -f *.a
+	rm -f *.out

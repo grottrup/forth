@@ -1,24 +1,43 @@
 #include "dictionary.h"
 #include "operations.h"
-#define WORDS 5
+#include <assert.h>
+#define WORDS 9 // remember to increase when adding a command
 
-built_in_word_dict* initialize_built_in_dict(void) {
-    built_in_word_dict* dict = malloc(sizeof(built_in_word_dict));
+dictionary* initialize_built_in_dict(void)
+{
+    dictionary* dict = malloc(sizeof(dictionary));
     dict->length = WORDS;
-    dict->word = calloc(WORDS, sizeof(built_in_word));
-    dict->word[0] = (built_in_word){"+", add, 2};
-    dict->word[1] = (built_in_word){"-", minus, 2};
-    dict->word[2] = (built_in_word){"*", mult, 2};
-    dict->word[3] = (built_in_word){"/", divide,2};
-    dict->word[4] = (built_in_word){"~", uniminus, 1};
-    // dict->word[0] = (built_in_word){"EMIT", emit, 2};
-    // dict->word[0] = (built_in_word){'.', dot, 2};
-    // dict->word[0] = (built_in_word){"CR", cr, 2};
-    // dict->word[0] = (built_in_word){'\"', qmark, 2};
+    dict->word = calloc(WORDS, sizeof(word));
+    dict->word[0] = (word){"+", add, 2, true};
+    dict->word[1] = (word){"-", minus, 2, true};
+    dict->word[2] = (word){"*", mult, 2, true};
+    dict->word[3] = (word){"/", divide, 2, true};
+    dict->word[4] = (word){"~", uniminus, 1, true};
+    dict->word[6] = (word){".", dot, 1, false};
+    dict->word[5] = (word){"EMIT", emit, 2, false};
+    dict->word[7] = (word){"CR", cr, 2, false};
+    dict->word[8] = (word){"\"", qmark, 2, false};
+
     /* Verify initialization */
-    // for (int i = 0; i < WORDS; i++) {
-    //     assert(dict->word[i].operator != 0 && dict->word[i].get_result != 0);
-    // }
+    for (int i = 0; i < WORDS; i++)
+    {
+        assert(dict->word[i].operator!= 0 && dict->word[i].get_result != 0);
+    }
 
     return dict;
+}
+
+void execute_command(stack* s, word* w)
+{
+    int* arr = calloc(w->operator_args, sizeof(int));
+    // extract parameters
+    for (int j = 0; j < w->operator_args; j++)
+    {
+        arr[j] = pop(s);
+    }
+    if(w->should_push)
+    {
+        int result = w->get_result(arr);
+        push(s, result);
+    }
 }

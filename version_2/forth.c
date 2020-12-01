@@ -41,7 +41,7 @@ int main(void)
     char *_input;
     bool should_continue;
 
-    built_in_word_dict* dict = initialize_built_in_dict();
+    dictionary* dict = initialize_built_in_dict();
 
     should_continue = true;
     while (should_continue)

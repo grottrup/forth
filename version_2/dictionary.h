@@ -1,11 +1,24 @@
- typedef struct built_in_word{
+#ifndef _DICTIONARY_H_
+#define _DICTIONARY_H_
+
+#include <stdbool.h>
+#include "stack.h"
+#include <stdlib.h> //atoi
+
+ typedef struct word{
      char* operator; // which operator to execute
      int(*get_result)(int*); // use an array of arguments to execute the operator on
-     int para_count; // how many arguments does the operator take
- }built_in_word;
+     int operator_args; // how many arguments does the operator take
+     bool should_push;
+ }word;
 
-typedef struct built_in_word_dict
+typedef struct dictionary
 {
-    built_in_word (* word);
+    word (* word);
     int length;
-} built_in_word_dict;
+} dictionary;
+
+dictionary* initialize_built_in_dict(void);
+void execute_command(stack *s, word* w);
+
+#endif
