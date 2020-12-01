@@ -30,10 +30,11 @@ void test_arithmetics(void)
         {
             if(dict->word[i].operator = "+" )
             {
-                printf("%d", i);
+                printf("index(%d)\n", i);
                 word w = dict->word[i];
                 execute_command(&s, &w);
                 assert(pop(&s) == 3 );
+                return;
             }
         }
         // free stack
