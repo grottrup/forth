@@ -1,24 +1,21 @@
 #ifndef _DICTIONARY_H_
 #define _DICTIONARY_H_
 
-#include <stdbool.h>
 #include "stack.h"
-#include <stdlib.h> //atoi
+#include <stdbool.h>
 
- typedef struct word{
-     char* operator; // which operator to execute
-     int(*get_result)(int*); // use an array of arguments to execute the operator on
-     int operator_args; // how many arguments does the operator take
-     bool should_push;
- }word;
+typedef struct command
+{
+    char* word;
+    void (*execute)(stack*);
+} command;
 
 typedef struct dictionary
 {
-    word (* word);
+    command(*command);
     int length;
 } dictionary;
 
 dictionary* initialize_built_in_dict(void);
-void execute_command(stack *s, word* w);
 
 #endif

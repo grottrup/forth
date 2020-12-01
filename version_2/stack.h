@@ -22,3 +22,12 @@ bool stack_is_empty(stack* s);
 void print_stack(stack* s);
 
 #endif
+
+// void rot(s)
+// {
+
+// }
+// rot
+// t = pop()
+// t->link_below = NULL
+// traverse till the 3rd element in the singly link and add t

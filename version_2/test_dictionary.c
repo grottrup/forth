@@ -12,35 +12,49 @@ void test_init(void)
         assert(dict->length > 0);
         free(dict);
     }
-    {
-        dictionary* dict = initialize_built_in_dict();
-        assert(dict->length >= 9); // update when the dictionary is expanded
-        free(dict);
-    }
+    // {
+    //     dictionary* dict = initialize_built_in_dict();
+    //     assert(dict->length >= 9); // update when the dictionary is expanded
+    //     free(dict);
+    // }
 }
 
-void test_arithmetics(void)
+void test_arithmetics(void) // white box
 {
     {
         stack s = initialize_stack(); // whoops not so unifor implementation
         push(&s, 1);
         push(&s, 2);
-        dictionary* dict = initialize_built_in_dict();
-        for (int i = 0; i < dict->length; i++)
-        {
-            if(dict->word[i].operator = "+" )
-            {
-                printf("index(%d)\n", i);
-                word w = dict->word[i];
-                execute_command(&s, &w);
-                assert(pop(&s) == 3 );
-                return;
-            }
-        }
+        command w = (command){"+", add};
+        w.execute(&s);
+        assert(pop(&s) == 3 );
+        assert(stack_is_empty(&s));
         // free stack
-        free(dict);
     }
 }
+
+// void test_arithmetics2(void) // black box
+// {
+//     {
+//         stack s = initialize_stack(); // whoops not so unifor implementation
+//         push(&s, 1);
+//         push(&s, 2);
+//         dictionary* dict = initialize_built_in_dict();
+//         for (int i = 0; i < dict->length; i++)
+//         {
+//             if(dict->command[i].word = "+" )
+//             {
+//                 printf("index(%d)\n", i);
+//                 command w = dict->command[i];
+//                 execute_command(&s, &w);
+//                 assert(pop(&s) == 3 );
+//                 return;
+//             }
+//         }
+//         // free stack
+//         free(dict);
+//     }
+// }
 
 int main()
 {
