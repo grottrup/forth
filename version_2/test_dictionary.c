@@ -31,6 +31,16 @@ void test_arithmetics(void) // white box
         assert(stack_is_empty(&s));
         // free stack
     }
+    {
+        stack s = initialize_stack(); // whoops not so unifor implementation
+        push(&s, 10);
+        push(&s, 2);
+        command w = (command){"/", divide};
+        w.execute(&s);
+        assert(pop(&s) == 5 );
+        assert(stack_is_empty(&s));
+        // free stack
+    }
 }
 
 // void test_arithmetics2(void) // black box

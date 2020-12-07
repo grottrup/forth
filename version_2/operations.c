@@ -1,23 +1,29 @@
 #include "operations.h"
 
 void add(stack* s){
-    int a = pop(s);
     int b = pop(s);
+    int a = pop(s);
     push(s,a+b);
 }
 
 void minus(stack* s){
-    int a = pop(s);
     int b = pop(s);
+    int a = pop(s);
     push(s,a-b);
 }
 
-// int mult(int* arr){
-//     return arr[1]*arr[0];
-// }
-// int divide(int* arr){
-//     return arr[1]/arr[0];
-// }
+void mult(stack* s){
+    int b = pop(s);
+    int a = pop(s);
+    push(s,a*b);
+}
+
+void divide(stack* s){
+    int b = pop(s);
+    int a = pop(s);
+    push(s,a/b);
+}
+
 // int uniminus(int* arr){
 //     return -arr[0];
 // }
