@@ -23,5 +23,7 @@ void If(stack* s);
 void Else(stack* s);
 void Then(stack* s);
 void Equals(stack* s);
+void LessThan(stack* s);
+void GreaterThan(stack* s);
 
 #endif

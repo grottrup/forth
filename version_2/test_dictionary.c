@@ -42,15 +42,25 @@ void test_arithmetics(void) // white box
         // free stack
     }
 }
+// Make RIPLE interface soon
 
-void user_word()
+void Logic()
 {
     {
-        // command w = (command){":", DefineStart};
+        stack s = initialize_stack(); // whoops not so unifor implementation
+        push(&s, 1);
+        push(&s, 1);
+        command w = (command){"=", Equals};
+        w.execute(&s);
+        assert(pop(&s) == -1 );
     }
     {
         stack s = initialize_stack(); // whoops not so unifor implementation
-        // command w = (command){";", DefineEnd};
+        push(&s, 1);
+        push(&s, 1);
+        command w = (command){"=", And};
+        w.execute(&s);
+        assert(pop(&s) == -1 );
     }
 }
 
