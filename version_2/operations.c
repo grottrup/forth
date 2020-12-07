@@ -20,12 +20,16 @@ void Mult(stack* s){
 
 void Divide(stack* s){
     int b = pop(s);
+    assert(b != 0); // could possibly be handled later with our own error messages
     int a = pop(s);
     push(s,a/b);
 }
 
 void Emit(stack* s){
-
+    int a = pop(s); // the con... too much work
+    printf("%d", a);
+    push(s,a);
+    // another option: extend the stack to have a read head fucntion
 }
 
 void CR(stack* s);
@@ -50,12 +54,46 @@ void Swap(stack* s)
     push(s,a);
 }
 
-void Over(stack* s);
-void Rot(stack* s);
+void Over(stack* s)
+{
+    // 1 2 3 -> 1 2 3 2
+    // - a b -> - a b a
+    
+}
+
+void Rot(stack* s)
+{
+    // 1 2 3 -> 2 3 1
+    // a b c -> b c a
+    int c = pop(s); //3
+    int b = pop(s); //2
+    int a = pop(s); //1
+    push(s,b);
+    push(s,c); 
+    push(s,a);
+}
+
+void Equals (stack* s) {
+    int b = pop(s);
+    int a = pop(s);
+    push(s, ((a == b) ? -1 : 0));
+    // if(a == b) 
+    //     push(s, -1);
+    // else
+    //     push(s, 0);
+    // (a == b)? push(s, -1) : push(s, 0);
+    // push(s, (a == b) * -1)
+}
+
 void And(stack* s);
 void Or(stack* s);
 void Not(stack* s);
-void If(stack* s);
+
+void If(stack* s)
+{
+
+}
+
 void Else(stack* s);
 void Then(stack* s);
 

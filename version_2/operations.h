@@ -22,5 +22,6 @@ void Not(stack* s);
 void If(stack* s);
 void Else(stack* s);
 void Then(stack* s);
+void Equals(stack* s);
 
 #endif

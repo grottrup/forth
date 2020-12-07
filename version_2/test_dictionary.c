@@ -25,7 +25,7 @@ void test_arithmetics(void) // white box
         stack s = initialize_stack(); // whoops not so unifor implementation
         push(&s, 1);
         push(&s, 2);
-        command w = (command){"+", add};
+        command w = (command){"+", Add};
         w.execute(&s);
         assert(pop(&s) == 3 );
         assert(stack_is_empty(&s));
@@ -35,11 +35,22 @@ void test_arithmetics(void) // white box
         stack s = initialize_stack(); // whoops not so unifor implementation
         push(&s, 10);
         push(&s, 2);
-        command w = (command){"/", divide};
+        command w = (command){"/", Divide};
         w.execute(&s);
         assert(pop(&s) == 5 );
         assert(stack_is_empty(&s));
         // free stack
+    }
+}
+
+void user_word()
+{
+    {
+        // command w = (command){":", DefineStart};
+    }
+    {
+        stack s = initialize_stack(); // whoops not so unifor implementation
+        // command w = (command){";", DefineEnd};
     }
 }
 
