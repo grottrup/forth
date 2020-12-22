@@ -58,7 +58,7 @@ int ripl(void)
             sscanf(_input, " %s", symbol);
             if (is_operator(symbol))
             {
-                calculate(&_stack, symbol, dict->word, dict->length);
+                //calculate(&_stack, symbol, dict->word, dict->length);
             }
             else
             {
