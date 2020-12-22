@@ -32,8 +32,7 @@ stack initialize_stack(void)
 {
   stack s = {malloc(sizeof(stack))};
   s.top-> link_below = NULL; // or sentinal
-  stack bad = NULL;
-  return bad; //rewrite
+  return s;
 }
 
 /**
