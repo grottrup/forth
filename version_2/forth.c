@@ -34,7 +34,7 @@ bool is_operator(char* x)
     return false;
 }
 
-int main(void)
+int ripl(void)
 {
     printf("Welcome to forth🍀\n");
     stack _stack = initialize_stack(); // rewrite to just be a top node that represents the stack
