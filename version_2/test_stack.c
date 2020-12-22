@@ -1,7 +1,7 @@
 #include <assert.h>
 #include "stack.h"
 
-int main()
+int stack_test()
 {
     stack s = initialize_stack();
     assert(stack_is_empty(&s));
