@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "operations.h"
 
 void Add(stack* s){
