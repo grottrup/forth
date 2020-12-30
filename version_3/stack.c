@@ -24,15 +24,12 @@
 #include <assert.h>
 #include "stack.h"
 
-/**
- * @brief 
- * @return stack 
- */
-stack initialize_stack(void)
+stack* construct_stack(void)
 {
-  stack s = {malloc(sizeof(stack))};
-  s.top-> link_below = NULL; // or sentinal
-  return s;
+    stack* s = malloc(sizeof(stack));
+    s->link_below = NULL;
+    s->item = 0;
+    return s;
 }
 
 /**
@@ -42,10 +39,11 @@ stack initialize_stack(void)
  */
 void push(stack* s, int x)
 {
-    node* next_top = malloc(sizeof(node));
-    next_top->item = x;
-    next_top->link_below = s->top;
-    s->top = next_top;
+    stack* old_top = malloc(sizeof(stack));
+    old_top->link_below = s->link_below; 
+    old_top->item = s->item; 
+    s->item = x;
+    s->link_below = old_top;
 }
 
 /**
@@ -56,10 +54,13 @@ void push(stack* s, int x)
 int pop(stack* s)
 {
     assert(!stack_is_empty(s));
-    int result = s->top->item;
-    node* temp = s->top;
-    s->top = s->top->link_below;
-    free(temp);
+    int result = s->item;
+    s->item = 0;
+    if(!stack_is_empty(s))
+    {
+        s->item = s->link_below->item;
+        s->link_below = s->link_below->link_below;
+    }
     return result;
 }
 
@@ -71,49 +72,5 @@ int pop(stack* s)
  */
 bool stack_is_empty(stack* s)
 {
-    if (s->top-> link_below == NULL)
-    {
-        return true;
-    }
-    return false;
+    return s->item == 0 && s->link_below == NULL;
 }
-
-/**
- * @brief Prints tail of the node, then the node itself, resulting in the bottom to the left
- * @param n
- */
-void print_node(node* n) {
-    node* next = n->link_below;
-    
-    if (next != NULL) {
-        print_node(next);
-        
-        int value = n->item;
-        printf("%d ", value);
-    }
-}
-
-// https://1scyem2bunjw1ghzsf1cjwwn-wpengine.netdna-ssl.com/wp-content/uploads/2018/01/Starting-FORTH.pdf
-
-/**
- * @brief Prints the stack with the top as the first element
- * @param s 
- */
-void print_stack(stack* s) {
-    node* current_node = s->top;
-
-    if (current_node == NULL) {
-        printf("Stack empty\n");
-        return;
-    }
-    printf("Stack: ");
-    /* while (current_node->link_below != NULL) {
-        int value = current_node->item;
-        printf("%d ", value);
-        current_node = current_node->link_below;
-    } */
-    print_node(current_node);
-    printf("<- Top\n");
-}
-
-// the 

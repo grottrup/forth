@@ -5,18 +5,17 @@ default: test clean
 debug: COMPILER += -g # add debug flag
 debug: compile
 
-test: 
-	make test_stack.out 
-	make test_dictionary.out
+test: test_stack.out
 
-test_dictionary.out:
+libdictionary.a: 
 	$(COMPILER) -c stack.c
 	$(COMPILER) -c dictionary.c
 	$(COMPILER) -c operations.c
 	ar rcs libdictionary.a dictionary.o operations.o stack.o
+
+test_dictionary.out: libdictionary.a
 	$(COMPILER) -c test_dictionary.c
 	$(COMPILER) test_dictionary.o -ldictionary -L . -o test_dictionary.out
-	./test_dictionary.out
 
 test_stack.out:
 	$(COMPILER) -c stack.c
