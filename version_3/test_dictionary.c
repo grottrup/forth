@@ -88,7 +88,7 @@ void Logic()
 //     }
 // }
 
-bool test_dictionary()
+bool test_dictionary(void)
 {
     test_init();
     test_arithmetics();

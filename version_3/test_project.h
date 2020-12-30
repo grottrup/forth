@@ -3,7 +3,7 @@
 
 #include <assert.h>
 
-bool test_dictionary(void);
 bool test_stack(void);
+bool test_dictionary(void);
 
 #endif

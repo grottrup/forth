@@ -2,7 +2,7 @@
 #include "stack.h"
 #include "test_project.h"
 
-bool test_stack()
+bool test_stack(void)
 {
     stack s = initialize_stack();
     assert(stack_is_empty(&s));
