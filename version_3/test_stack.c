@@ -23,6 +23,13 @@ bool test_stack(void)
     assert(stack_is_empty(s));
     assert(x0 == y1);
     assert(x1 == y0);
+    free_stack(s);
     printf("🔥\n");
     return true;
+}
+
+int main(void)
+{
+    test_stack();
+    return 0;
 }

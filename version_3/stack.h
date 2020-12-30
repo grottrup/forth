@@ -14,6 +14,6 @@ stack* construct_stack(void);
 void push(stack* s, int x);
 int pop(stack* s);
 bool stack_is_empty(stack* s);
-void print_stack(stack* s);
+void free_stack(stack* s);;
 
 #endif

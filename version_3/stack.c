@@ -64,6 +64,15 @@ int pop(stack* s)
     return result;
 }
 
+void free_stack(stack* s)
+{
+    while(!stack_is_empty(s))
+    {
+        pop(s);
+    }
+}
+
+
 /**
  * @brief Check whether there are any elements left in the stack
  * @param s 
