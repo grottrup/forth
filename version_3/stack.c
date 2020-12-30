@@ -24,12 +24,11 @@
 #include <assert.h>
 #include "stack.h"
 
-stack* construct_stack(void)
+static node sentinel = {NULL, 0};
+
+void init_stack(stack* s)
 {
-    stack* s = malloc(sizeof(stack));
-    s->link_below = NULL;
-    s->item = 0;
-    return s;
+  s->top = &sentinel;
 }
 
 /**
@@ -39,11 +38,10 @@ stack* construct_stack(void)
  */
 void push(stack* s, int x)
 {
-    stack* old_top = malloc(sizeof(stack));
-    old_top->link_below = s->link_below; 
-    old_top->item = s->item; 
-    s->item = x;
-    s->link_below = old_top;
+    node* next_top = malloc(sizeof(node));
+    next_top->item = x;
+    next_top->link_below = s->top;
+    s->top = next_top;
 }
 
 /**
@@ -54,14 +52,58 @@ void push(stack* s, int x)
 int pop(stack* s)
 {
     assert(!stack_is_empty(s));
-    int result = s->item;
-    s->item = 0;
-    if(!stack_is_empty(s))
-    {
-        s->item = s->link_below->item;
-        s->link_below = s->link_below->link_below;
-    }
+    int result = s->top->item;
+    node* temp = s->top;
+    s->top = s->top->link_below;
+    free(temp);
     return result;
+}
+
+/**
+ * @brief Check whether there are any elements left in the stack
+ * @param s 
+ * @return true 
+ * @return false 
+ */
+bool stack_is_empty(stack* s)
+{
+    if (s->top == &sentinel)
+    {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @brief Prints tail of the node, then the node itself, resulting in the bottom to the left
+ * @param n
+ */
+void print_node(node* n) {
+    node* next = n->link_below;
+    
+    if (next != NULL) {
+        print_node(next);
+        
+        int value = n->item;
+        printf("%d ", value);
+    }
+}
+
+/**
+ * @brief Prints the stack with the top as the first element
+ * @param s 
+ */
+void print_stack(stack* s) {
+    node* current_node = s->top;
+
+    if (current_node == &sentinel) 
+    {
+        printf("Stack empty\n");
+        return;
+    }
+    printf("Stack: ");
+    print_node(current_node);
+    printf("<- Top\n");
 }
 
 void free_stack(stack* s)
@@ -72,14 +114,3 @@ void free_stack(stack* s)
     }
 }
 
-
-/**
- * @brief Check whether there are any elements left in the stack
- * @param s 
- * @return true 
- * @return false 
- */
-bool stack_is_empty(stack* s)
-{
-    return s->item == 0 && s->link_below == NULL;
-}
