@@ -1,7 +1,8 @@
 #include <assert.h>
 #include "stack.h"
+#include "test_project.h"
 
-int stack_test()
+bool test_stack()
 {
     stack s = initialize_stack();
     assert(stack_is_empty(&s));
@@ -24,5 +25,5 @@ int stack_test()
     assert(x0 == y1);
     assert(x1 == y0);
     printf("🔥\n");
-    return 0;
+    return true;
 }

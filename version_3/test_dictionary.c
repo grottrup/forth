@@ -1,5 +1,6 @@
 #include "dictionary.h"
 #include "operations.h"
+#include "test_project.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h> //atoi
@@ -87,10 +88,10 @@ void Logic()
 //     }
 // }
 
-int main()
+bool test_dictionary()
 {
     test_init();
     test_arithmetics();
     printf("📖\n");
-    return 0;
+    return true;
 }
