@@ -2,6 +2,8 @@
 #define _TEST_PROJECT_H_
 
 #include <stdbool.h>
+#include <assert.h>
+#include <stdio.h>
 
 bool test_stack(void);
 bool test_dictionary(void);

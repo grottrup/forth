@@ -1,4 +1,3 @@
-#include <assert.h>
 #include "stack.h"
 #include "test_project.h"
 

@@ -1,8 +1,6 @@
 #include "dictionary.h"
 #include "operations.h"
 #include "test_project.h"
-#include <assert.h>
-#include <stdio.h>
 #include <stdlib.h> //atoi
 
 
