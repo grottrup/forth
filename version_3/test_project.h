@@ -7,5 +7,7 @@
 
 bool test_stack(void);
 bool test_dictionary(void);
+bool test_operations(void);
+bool test_statements(void);
 
 #endif
