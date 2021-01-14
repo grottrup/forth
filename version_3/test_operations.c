@@ -47,9 +47,10 @@ void test_arithmetics(void)
 
 void test_output(void)
 {
+    stack s;
     /* We cannot test what it prints in the commandline, but we can test the changes that are made to the stack */
     {
-        stack s = init_stack();
+        init_stack(&s);
         push(&s, 42);
         assert(!stack_is_empty(&s));
         command w = (command){".", Dot};
@@ -57,6 +58,7 @@ void test_output(void)
         assert(stack_is_empty(&s));
         free_stack(&s);
     }
+    free_stack(&s);
 }
 //void Emit(stack* s);
 //void CR(stack* s);
