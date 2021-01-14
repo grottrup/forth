@@ -3,7 +3,7 @@
 #include "test_project.h"
 #include <stdlib.h> //atoi
 
-void test_arithmetics(void) // white box
+void T_Arithmetics(void)
 {
     {
         stack s = initialize_stack();
@@ -47,7 +47,19 @@ void test_arithmetics(void) // white box
     }
 }
 
-/* Output */
+void T_Output(void)
+{
+    /* We cannot test what it prints in the commandline, but we can test the changes that are made to the stack */
+    {
+        stack s = initialize_stack();
+        push(&s, 42);
+        assert(!stack_is_empty(&s));
+        command w = (command){".", Dot};
+        w.execute(&s);
+        assert(stack_is_empty(&s));
+        free_stack(&s);
+    }
+}
 //void Emit(stack* s);
 //void CR(stack* s);
 //void Dot(stack* s);
@@ -62,6 +74,6 @@ void test_arithmetics(void) // white box
 
 bool test_operations(void)
 {
-    test_arithmetics();
+    T_Arithmetics();
     return true;
 }
