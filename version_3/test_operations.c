@@ -5,46 +5,44 @@
 
 void test_arithmetics(void)
 {
+    stack s;
     {
-        stack s = init_stack();
+        init_stack(&s);
         push(&s, 1);
         push(&s, 2);
         command w = (command){"+", Add};
         w.execute(&s);
         assert(pop(&s) == 3 );
         assert(stack_is_empty(&s));
-        free_stack(&s);
     }    
     {
-        stack s = init_stack();
+        init_stack(&s);
         push(&s, 2);
         push(&s, 2);
         command w = (command){"-", Minus};
         w.execute(&s);
         assert(pop(&s) == 0 );
         assert(stack_is_empty(&s));
-        free_stack(&s);
     }    
     {
-        stack s = init_stack(); 
+        init_stack(&s);
         push(&s, 2);
         push(&s, 2);
         command w = (command){"*", Mult};
         w.execute(&s);
         assert(pop(&s) == 4 );
         assert(stack_is_empty(&s));
-        free_stack(&s);
     }
     {
-        stack s = init_stack();
+        init_stack(&s);
         push(&s, 10);
         push(&s, 2);
         command w = (command){"/", Divide};
         w.execute(&s);
         assert(pop(&s) == 5 );
         assert(stack_is_empty(&s));
-        free_stack(&s);
     }
+    free_stack(&s);
 }
 
 void test_output(void)
