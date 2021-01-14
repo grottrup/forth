@@ -6,7 +6,7 @@
 void test_arithmetics(void)
 {
     {
-        stack s = initialize_stack();
+        stack s = init_stack();
         push(&s, 1);
         push(&s, 2);
         command w = (command){"+", Add};
@@ -16,7 +16,7 @@ void test_arithmetics(void)
         free_stack(&s);
     }    
     {
-        stack s = initialize_stack();
+        stack s = init_stack();
         push(&s, 2);
         push(&s, 2);
         command w = (command){"-", Minus};
@@ -26,7 +26,7 @@ void test_arithmetics(void)
         free_stack(&s);
     }    
     {
-        stack s = initialize_stack(); 
+        stack s = init_stack(); 
         push(&s, 2);
         push(&s, 2);
         command w = (command){"*", Mult};
@@ -36,7 +36,7 @@ void test_arithmetics(void)
         free_stack(&s);
     }
     {
-        stack s = initialize_stack();
+        stack s = init_stack();
         push(&s, 10);
         push(&s, 2);
         command w = (command){"/", Divide};
@@ -51,7 +51,7 @@ void test_output(void)
 {
     /* We cannot test what it prints in the commandline, but we can test the changes that are made to the stack */
     {
-        stack s = initialize_stack();
+        stack s = init_stack();
         push(&s, 42);
         assert(!stack_is_empty(&s));
         command w = (command){".", Dot};
