@@ -15,6 +15,28 @@ void test_arithmetics(void) // white box
         assert(stack_is_empty(&s));
         // free stack
     }
+    
+    {
+        stack s = initialize_stack(); // whoops not so unifor implementation
+        push(&s, 1);
+        push(&s, 2);
+        command w = (command){"-", Minus};
+        w.execute(&s);
+        assert(pop(&s) == 3 );
+        assert(stack_is_empty(&s));
+        // free stack
+    }
+    
+    {
+        stack s = initialize_stack(); // whoops not so unifor implementation
+        push(&s, 1);
+        push(&s, 2);
+        command w = (command){"*", Mult};
+        w.execute(&s);
+        assert(pop(&s) == 3 );
+        assert(stack_is_empty(&s));
+        // free stack
+    }
     {
         stack s = initialize_stack(); // whoops not so unifor implementation
         push(&s, 10);
@@ -26,6 +48,19 @@ void test_arithmetics(void) // white box
         // free stack
     }
 }
+
+/* Output */
+//void Emit(stack* s);
+//void CR(stack* s);
+//void Dot(stack* s);
+//void Qmark(stack* s);
+
+/* Data Stack */
+//void Dup(stack* s);
+//void Drop(stack* s);
+//void Swap(stack* s);
+//void Over(stack* s);
+//void Rot(stack* s);
 
 bool test_operations(void)
 {
