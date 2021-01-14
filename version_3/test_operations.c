@@ -13,9 +13,8 @@ void test_arithmetics(void) // white box
         w.execute(&s);
         assert(pop(&s) == 3 );
         assert(stack_is_empty(&s));
-        // free stack
-    }
-    
+        free_stack(s);
+    }    
     {
         stack s = initialize_stack(); // whoops not so unifor implementation
         push(&s, 1);
@@ -24,9 +23,8 @@ void test_arithmetics(void) // white box
         w.execute(&s);
         assert(pop(&s) == 3 );
         assert(stack_is_empty(&s));
-        // free stack
-    }
-    
+        free_stack(s);
+    }    
     {
         stack s = initialize_stack(); // whoops not so unifor implementation
         push(&s, 1);
@@ -35,7 +33,7 @@ void test_arithmetics(void) // white box
         w.execute(&s);
         assert(pop(&s) == 3 );
         assert(stack_is_empty(&s));
-        // free stack
+        free_stack(s);
     }
     {
         stack s = initialize_stack(); // whoops not so unifor implementation
@@ -45,7 +43,7 @@ void test_arithmetics(void) // white box
         w.execute(&s);
         assert(pop(&s) == 5 );
         assert(stack_is_empty(&s));
-        // free stack
+        free_stack(s);
     }
 }
 
