@@ -86,7 +86,27 @@ sys_dict_entry* sys_dict_initialize(){
     d->next_entry = NULL;
 
     sys_dict_add_entry("+", Add, d);
-    sys_dict_add_entry("-",Minus, d);
+    sys_dict_add_entry("-", Minus, d);
+    sys_dict_add_entry("*", Mult, d);
+    sys_dict_add_entry("/", Divide, d);
+
+    sys_dict_add_entry(".", Dot, d);
+    sys_dict_add_entry("EMIT", Emit, d);
+    sys_dict_add_entry("DROP", Drop, d);
+    //sys_dict_add_entry("DUP", Dup, d);
+    sys_dict_add_entry("SWAP", Swap, d);
+    sys_dict_add_entry("OVER", Over, d);
+    sys_dict_add_entry("ROT", Rot, d);
+
+    //sys_dict_add_entry("CR", CR, d);
+    //sys_dict_add_entry("\"", Qmark, d);
+    
+    //sys_dict_add_entry("=", Equals, d);
+    //sys_dict_add_entry("<", LessThan, d);
+    //sys_dict_add_entry(">", GreaterThan, d);
+    //sys_dict_add_entry("AND", And, d);
+    //sys_dict_add_entry("OR", Or, d);
+    //sys_dict_add_entry("NOT", Not, d);
 
     return d;
 }
