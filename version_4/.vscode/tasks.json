@@ -1,0 +1,70 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "C/C++: gcc-9 build active file",
+            "command": "/usr/bin/gcc-9",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "MAKE build files",
+            "command": "make",
+            "args": [
+                "clean",
+                "all"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+            ],
+            "group": "build" 
+        },
+        {
+            "type": "shell",
+            "label": "MAKE build debug files",
+            "command": "make",
+            "args": [
+                "clean",
+                "debug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+            ],
+            "group": "build" 
+        },
+        {
+            "type": "shell",
+            "label": "MAKE clean",
+            "command": "make",
+            "args": [
+                "clean"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+            ],
+            "group": "none"
+        }
+    ],
+    "version": "2.0.0"
+}
