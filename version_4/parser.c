@@ -43,15 +43,20 @@ void parse(const char* input, stack* num_stack, sys_dict_entry* sys_dict, user_d
    char* word; // THe current word in the loop
 
    str = strdup(input); 
+   //strsep(&str, " ") returns the part of the string before the first space, and removes it from the original string. Returns NULL if no spaces found
    while ( (word = strsep(&str, " ")) != NULL )
    {
-        if (is_number(word))
+        if ((*word == 0)) {
+            // This happens if there's a double space or a trailing space. 
+        } 
+        else if (is_number(word)) {
             push(num_stack, atoi(word));
-
-        else if (is_command(word, sys_dict))
+        }
+        else if (is_command(word, sys_dict)) {
             sys_dict_execute(word, sys_dict, num_stack);
-
-        else if (is_user_word(word, user_dict))
+        }
+        else if (is_user_word(word, user_dict)) {
             parse(user_dict_get_entry(word, user_dict), num_stack, sys_dict, user_dict);
+        }
    }
 }
