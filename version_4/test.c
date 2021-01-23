@@ -74,7 +74,7 @@ void manual_test() {
         if(!fgets(inp, sizeof(inp), stdin))
         {
             fputs("io error\n", stderr);
-            return 1;
+            return;
         }
 
         // Remove the newline
