@@ -1,8 +1,11 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 #include "dict.h"
 #include "parser.h"
+
+#define INP_MAX 80
 
 void test() {
     printf("~ INIT ~\n");
@@ -56,7 +59,38 @@ void test() {
     assert(!user_dict_entry_exists("test", ud));
 }
 
+void manual_test() {
+    user_dict_entry* ud = user_dict_initialize();
+    sys_dict_entry* sd = sys_dict_initialize();
+    stack si;
+    init_stack(&si);
+    stack* s = &si;
+
+    char inp[INP_MAX+2];
+
+    while (strcmp(inp,"exit") != 0)
+    {
+        // https://stackoverflow.com/questions/1247989/how-do-you-allow-spaces-to-be-entered-using-scanf
+        if(!fgets(inp, sizeof(inp), stdin))
+        {
+            fputs("io error\n", stderr);
+            return 1;
+        }
+
+        // Remove the newline
+        for (int i = 0; i < INP_MAX+1; i++) {
+            if (inp[i] == '\n')
+                inp[i] = 0x0;
+        }
+        //printf("\"%s\"\n",inp);
+
+        parse((const char*) &inp, s, sd, ud);
+        print_stack(s);
+    }
+}
+
 void main() {
     test();
     printf("Success!\n");
+    manual_test();
 }
