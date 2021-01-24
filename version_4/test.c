@@ -7,8 +7,10 @@
 
 #define INP_MAX 80
 
+#define _VIS_AUT_TEST false
+
 void test() {
-    printf("~ INIT ~\n");
+    if (_VIS_AUT_TEST) printf("~ INIT ~\n");
     user_dict_entry* ud = user_dict_initialize();
     sys_dict_entry* sd = sys_dict_initialize();
     stack si;
@@ -17,44 +19,44 @@ void test() {
 
 
     /// ADD A USER ENTRY
-    printf("~ ADD ~\n");
+    if (_VIS_AUT_TEST) printf("~ ADD ~\n");
     user_dict_assign("test", "1 2 3 + -", ud);
     assert(user_dict_entry_exists("test", ud));
 
     const char* body = user_dict_get_entry("test", ud);
 
-    printf("User dict test entry body: %s\n", body);
+    if (_VIS_AUT_TEST) printf("User dict test entry body: %s\n", body);
 
 
     /// TEST EXECUTION OF SYSTEM ENTRY
-    printf("~ EXEC ~\n");
+    if (_VIS_AUT_TEST) printf("~ EXEC ~\n");
     push(s, 5);
     push(s, 7);
-    print_stack(s);
-    printf("+\n");
+    if (_VIS_AUT_TEST) print_stack(s);
+    if (_VIS_AUT_TEST) printf("+\n");
     sys_dict_execute("+", sd, s);
-    print_stack(s);
+    if (_VIS_AUT_TEST) print_stack(s);
     assert(pop(s) == 12);
 
     push(s, 5);
     push(s, 7);
-    print_stack(s);
-    printf("-\n");
+    if (_VIS_AUT_TEST) print_stack(s);
+    if (_VIS_AUT_TEST) printf("-\n");
     sys_dict_execute("-", sd, s);
-    print_stack(s);
+    if (_VIS_AUT_TEST) print_stack(s);
     assert(pop(s) == -2);
 
 
     /// TEST PARSER ON USER ENTRY
-    printf("~ PARSE ~\n");
-    printf("Parser input: %s\n", body);
+    if (_VIS_AUT_TEST) printf("~ PARSE ~\n");
+    if (_VIS_AUT_TEST) printf("Parser input: %s\n", body);
     parse(body, s, sd, ud);
-    print_stack(s);
+    if (_VIS_AUT_TEST) print_stack(s);
     assert(pop(s) == -4);
 
 
     /// REMOVE USER ENTRY
-    printf("~ REMOVE ~\n");
+    if (_VIS_AUT_TEST) printf("~ REMOVE ~\n");
     user_dict_unassign("test", ud);
     assert(!user_dict_entry_exists("test", ud));
 }
@@ -92,6 +94,6 @@ void manual_test() {
 
 void main() {
     test();
-    printf("Success!\n");
+    if (_VIS_AUT_TEST) printf("Success!\n");
     manual_test();
 }
