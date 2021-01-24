@@ -133,5 +133,5 @@ bool sys_dict_entry_exists(const char* name, sys_dict_entry* dict){
     else if (LOOKUP_COMPARE_FUNCTION(dict->name, name) == 0)
         return true;
     else
-        sys_dict_entry_exists(name, dict->next_entry);
+        return sys_dict_entry_exists(name, dict->next_entry);
 }
