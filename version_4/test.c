@@ -92,8 +92,11 @@ void manual_test() {
     }
 }
 
-void main() {
+int main(int argc, char *argv[])
+{
     test();
     if (_SHOW_AUTO_TESTS) printf("Success!\n");
-    manual_test(); // commented out to see whether the automatic tests work
+    if(argc > 1)
+        manual_test(); // commented out to see whether the automatic tests work
+    return 0;
 }

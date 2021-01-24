@@ -2,7 +2,10 @@ COMPILER = gcc
 
 all: test.out
 
-run: all
+manual: all
+	./test.out test
+
+auto: all
 	./test.out
 
 debug: COMPILER += -g # add debug flag
