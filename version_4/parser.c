@@ -58,5 +58,8 @@ void parse(const char* input, stack* num_stack, sys_dict_entry* sys_dict, user_d
         else if (is_user_word(word, user_dict)) {
             parse(user_dict_get_entry(word, user_dict), num_stack, sys_dict, user_dict);
         }
+        else {
+            printf("%s ?\n", word);
+        }
    }
 }
