@@ -85,6 +85,7 @@ void manual_test() {
         //printf("\"%s\"\n",inp);
 
         parse((const char*) &inp, s, sd, ud);
+        printf("\n");
         print_stack(s);
     }
 }
