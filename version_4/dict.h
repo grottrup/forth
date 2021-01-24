@@ -20,6 +20,7 @@ typedef struct user_dict_entry
 } user_dict_entry;
 
 user_dict_entry* user_dict_initialize(void);
+/* The user makes their own word in the RIPL etc*/
 void user_dict_assign(const char* name, const char* body, user_dict_entry* dict);
 void user_dict_unassign(const char* name, user_dict_entry* dict);
 bool user_dict_entry_exists(const char* name, user_dict_entry* dict);

@@ -7,62 +7,62 @@
 
 #define INP_MAX 80
 
-#define _VIS_AUT_TEST false
+#define _SHOW_AUTO_TESTS true
 
 void test() {
-    if (_VIS_AUT_TEST) printf("~ INIT ~\n");
+    if (_SHOW_AUTO_TESTS) printf("~ INIT ~\n");
     user_dict_entry* ud = user_dict_initialize();
     sys_dict_entry* sd = sys_dict_initialize();
     stack si;
     init_stack(&si);
     stack* s = &si;
 
-
     /// ADD A USER ENTRY
-    if (_VIS_AUT_TEST) printf("~ ADD ~\n");
+    if (_SHOW_AUTO_TESTS) printf("~ ADD ~\n");
     user_dict_assign("test", "1 2 3 + -", ud);
     assert(user_dict_entry_exists("test", ud));
 
     const char* body = user_dict_get_entry("test", ud);
 
-    if (_VIS_AUT_TEST) printf("User dict test entry body: %s\n", body);
+    if (_SHOW_AUTO_TESTS) printf("User dict test entry body: %s\n", body);
 
 
     /// TEST EXECUTION OF SYSTEM ENTRY
-    if (_VIS_AUT_TEST) printf("~ EXEC ~\n");
+    if (_SHOW_AUTO_TESTS) printf("~ EXEC ~\n");
     push(s, 5);
     push(s, 7);
-    if (_VIS_AUT_TEST) print_stack(s);
-    if (_VIS_AUT_TEST) printf("+\n");
+    if (_SHOW_AUTO_TESTS) print_stack(s);
+    if (_SHOW_AUTO_TESTS) printf("+\n");
     sys_dict_execute("+", sd, s);
-    if (_VIS_AUT_TEST) print_stack(s);
+    if (_SHOW_AUTO_TESTS) print_stack(s);
     assert(pop(s) == 12);
 
     push(s, 5);
     push(s, 7);
-    if (_VIS_AUT_TEST) print_stack(s);
-    if (_VIS_AUT_TEST) printf("-\n");
+    if (_SHOW_AUTO_TESTS) print_stack(s);
+    if (_SHOW_AUTO_TESTS) printf("-\n");
     sys_dict_execute("-", sd, s);
-    if (_VIS_AUT_TEST) print_stack(s);
+    if (_SHOW_AUTO_TESTS) print_stack(s);
     assert(pop(s) == -2);
 
 
     /// TEST PARSER ON USER ENTRY
-    if (_VIS_AUT_TEST) printf("~ PARSE ~\n");
-    if (_VIS_AUT_TEST) printf("Parser input: %s\n", body);
+    if (_SHOW_AUTO_TESTS) printf("~ PARSE ~\n");
+    if (_SHOW_AUTO_TESTS) printf("Parser input: %s\n", body);
     parse(body, s, sd, ud);
-    if (_VIS_AUT_TEST) print_stack(s);
+    if (_SHOW_AUTO_TESTS) print_stack(s);
     assert(pop(s) == -4);
 
 
     /// REMOVE USER ENTRY
-    if (_VIS_AUT_TEST) printf("~ REMOVE ~\n");
-    user_dict_unassign("test", ud);
-    assert(!user_dict_entry_exists("test", ud));
+    // if (_SHOW_AUTO_TESTS) printf("~ REMOVE ~\n");
+    // user_dict_unassign("test", ud);
+    // assert(!user_dict_entry_exists("test", ud));
 }
 
 void manual_test() {
     user_dict_entry* ud = user_dict_initialize();
+    user_dict_assign("test", "1 2 3 + -", ud); // remove
     sys_dict_entry* sd = sys_dict_initialize();
     stack si;
     init_stack(&si);
@@ -94,6 +94,6 @@ void manual_test() {
 
 void main() {
     test();
-    if (_VIS_AUT_TEST) printf("Success!\n");
-    // manual_test(); // commented out to see whether the automatic tests work
+    if (_SHOW_AUTO_TESTS) printf("Success!\n");
+    manual_test(); // commented out to see whether the automatic tests work
 }

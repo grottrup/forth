@@ -1,5 +1,8 @@
 #include "parser.h"
 
+//#define LOOKUP_COMPARE_FUNCTION strcmp // Case sensitive
+#define LOOKUP_COMPARE_FUNCTION strcasecmp // Case insensitive
+
 bool is_number(const char* str) {
     int i;
     char c;
@@ -29,6 +32,11 @@ bool is_user_word(const char* str, user_dict_entry* user_dict) {
     return user_dict_entry_exists(str, user_dict);
 }
 
+bool is_user_definition(const char* str, user_dict_entry* user_dict) {
+    // ex 
+    // : OURWORD 42 EMIT ; 
+}
+
 void parse(const char* input, stack* num_stack, sys_dict_entry* sys_dict, user_dict_entry* user_dict) {
     /*  for each word in input:
             if word is_number:
@@ -39,12 +47,12 @@ void parse(const char* input, stack* num_stack, sys_dict_entry* sys_dict, user_d
                 parse word entry in user dictionary
     */
    
-   char* str;  // The remainder of the input string
+   char* remaining_to_read;  // The remainder of the input string
    char* word; // THe current word in the loop
 
-   str = strdup(input); 
+   remaining_to_read = strdup(input);
    //strsep(&str, " ") returns the part of the string before the first space, and removes it from the original string. Returns NULL if no spaces found
-   while ( (word = strsep(&str, " ")) != NULL )
+   while ( (word = strsep(&remaining_to_read, " ")) != NULL )
    {
         if ((*word == 0)) {
             // This happens if there's a double space or a trailing space. 
@@ -57,6 +65,18 @@ void parse(const char* input, stack* num_stack, sys_dict_entry* sys_dict, user_d
         }
         else if (is_user_word(word, user_dict)) {
             parse(user_dict_get_entry(word, user_dict), num_stack, sys_dict, user_dict);
+        }
+        else if (LOOKUP_COMPARE_FUNCTION(word, ":") == 0)
+        {
+            char* keyword;
+            char* definition;
+            if((keyword = strsep(&remaining_to_read, " ")) != NULL)
+            {
+                if((definition = strsep(&remaining_to_read, ";")) != NULL)
+                {
+                    user_dict_assign(keyword,definition,user_dict);
+                }
+            }
         }
         else {
             printf("%s ?\n", word);

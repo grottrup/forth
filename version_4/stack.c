@@ -30,7 +30,7 @@ static node sentinel = {NULL, 0};
  * @brief Initialize stack with no data
  * @param s 
  */
-void init_stack(stack* s)
+void init_stack(stack* s) // eventualle refactor to return the s pointer
 {
   s->top = &sentinel;
 }

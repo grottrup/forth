@@ -15,7 +15,7 @@ void user_dict_assign(const char* name, const char* body, user_dict_entry* dict)
     user_dict_entry* entry = dict;
     user_dict_entry* new_entry = malloc(sizeof(user_dict_entry));
 
-    new_entry->name = name;
+    new_entry->name = name; //
     new_entry->body = body;
     new_entry->next_entry = NULL;
 
@@ -98,7 +98,7 @@ sys_dict_entry* sys_dict_initialize(void){
     sys_dict_add_entry(".", Dot, d);
     sys_dict_add_entry("EMIT", Emit, d);
     sys_dict_add_entry("CR", CR, d);
-    sys_dict_add_entry("\"", Qmark, d);
+    //sys_dict_add_entry(".\"", Qmark, d); //."
 
     // Data stack
     sys_dict_add_entry("DROP", Drop, d);
