@@ -51,7 +51,7 @@ bool user_dict_entry_exists(const char* name, user_dict_entry* dict){
     else if (LOOKUP_COMPARE_FUNCTION(dict->name, name) == 0)
         return true;
     else
-        user_dict_entry_exists(name, dict->next_entry);
+        return user_dict_entry_exists(name, dict->next_entry);
 }
 
 const char* user_dict_get_entry(const char* name, user_dict_entry* dict){
@@ -60,7 +60,7 @@ const char* user_dict_get_entry(const char* name, user_dict_entry* dict){
     else if (LOOKUP_COMPARE_FUNCTION(dict->name, name) == 0)
         return dict->body;
     else
-        user_dict_get_entry(name, dict->next_entry);
+        return user_dict_get_entry(name, dict->next_entry);
 }
 
 
