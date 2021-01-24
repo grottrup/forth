@@ -1,5 +1,8 @@
 #include "dict.h"
 
+//#define LOOKUP_COMPARE_FUNCTION strcmp // Case sensitive
+#define LOOKUP_COMPARE_FUNCTION strcasecmp // Case insensitive
+
 user_dict_entry* user_dict_initialize() {
     user_dict_entry* d = malloc(sizeof(user_dict_entry));
     d->name = "";
@@ -21,7 +24,7 @@ void user_dict_assign(const char* name, const char* body, user_dict_entry* dict)
     else if (dict->next_entry == NULL) 
         // ADD ENTRY
         dict->next_entry = new_entry;
-    else if (strcmp(dict->name, name) == 0)
+    else if (LOOKUP_COMPARE_FUNCTION(dict->name, name) == 0)
         dict->body = body; // Overwrites existing entry
     else
         user_dict_assign(name, body, dict->next_entry);
@@ -29,9 +32,9 @@ void user_dict_assign(const char* name, const char* body, user_dict_entry* dict)
 
 void user_dict_unassign(const char* name, user_dict_entry* dict){
     user_dict_entry* entry = dict;
-    if (entry == NULL || strcmp(entry->name, name) == 0)
+    if (entry == NULL || LOOKUP_COMPARE_FUNCTION(entry->name, name) == 0)
         return; // TOO DEEP
-    else if (strcmp(entry->next_entry->name, name) == 0) {
+    else if (LOOKUP_COMPARE_FUNCTION(entry->next_entry->name, name) == 0) {
         user_dict_entry* entry_to_remove = entry->next_entry;
         user_dict_entry* following_entry = entry_to_remove->next_entry;
 
@@ -45,7 +48,7 @@ void user_dict_unassign(const char* name, user_dict_entry* dict){
 bool user_dict_entry_exists(const char* name, user_dict_entry* dict){
     if (dict == NULL)
         return false;
-    else if (strcmp(dict->name, name) == 0)
+    else if (LOOKUP_COMPARE_FUNCTION(dict->name, name) == 0)
         return true;
     else
         user_dict_entry_exists(name, dict->next_entry);
@@ -54,7 +57,7 @@ bool user_dict_entry_exists(const char* name, user_dict_entry* dict){
 const char* user_dict_get_entry(const char* name, user_dict_entry* dict){
     if (dict == NULL)
         return "";
-    else if (strcmp(dict->name, name) == 0)
+    else if (LOOKUP_COMPARE_FUNCTION(dict->name, name) == 0)
         return dict->body;
     else
         user_dict_get_entry(name, dict->next_entry);
@@ -94,7 +97,7 @@ sys_dict_entry* sys_dict_initialize(){
     // Output
     sys_dict_add_entry(".", Dot, d);
     sys_dict_add_entry("EMIT", Emit, d);
-    //sys_dict_add_entry("CR", CR, d);
+    sys_dict_add_entry("CR", CR, d);
     //sys_dict_add_entry(".\"", Qmark, d);
 
     // Data stack
@@ -118,7 +121,7 @@ sys_dict_entry* sys_dict_initialize(){
 void sys_dict_execute(const char* name, sys_dict_entry* dict, stack* s) {
     if (dict == NULL)
         return;
-    else if (strcmp(dict->name, name) == 0)
+    else if (LOOKUP_COMPARE_FUNCTION(dict->name, name) == 0)
         dict->execute(s);
     else
         sys_dict_execute(name, dict->next_entry, s);
@@ -127,7 +130,7 @@ void sys_dict_execute(const char* name, sys_dict_entry* dict, stack* s) {
 bool sys_dict_entry_exists(const char* name, sys_dict_entry* dict){
     if (dict == NULL)
         return false;
-    else if (strcmp(dict->name, name) == 0)
+    else if (LOOKUP_COMPARE_FUNCTION(dict->name, name) == 0)
         return true;
     else
         sys_dict_entry_exists(name, dict->next_entry);
