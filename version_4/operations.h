@@ -21,4 +21,12 @@ void Swap(stack* s);
 void Over(stack* s);
 void Rot(stack* s);
 
+// Comparisons
+void Equals(stack* s);
+void LessThan(stack* s);
+void GreaterThan(stack* s);
+void And(stack* s);
+void Or(stack* s);
+void Not(stack* s);
+
 #endif

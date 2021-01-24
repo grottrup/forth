@@ -1,6 +1,7 @@
 #include <assert.h>
 #include "operations.h"
 
+// Arithmetics
 void Add(stack* s){
     int b = pop(s);
     int a = pop(s);
@@ -26,28 +27,53 @@ void Divide(stack* s){
     push(s,a/b);
 }
 
+// Output
 void Emit(stack* s){
+    // print the char with the ASCII value of the top item in the stack
     int a = pop(s); // the con... too much work
     printf("%c", a);
     // another option: extend the stack to have a read head fucntion
 }
 
-void CR(stack* s);
+void CR(stack* s) {
+    // Carriage return
+    printf("\n");
+}
 
 void Dot(stack* s) {
+    // Print the number from the top of the stack
     int a = pop(s);
     printf("%d", a);
 }
 
-void Qmark(stack* s);
-void Dup(stack* s);
+void Qmark(stack* s) {
+    // Print string. e.g. (lines with '>' is user input)
+    //    > : say-hello ."Hello World!" ;
+    //    > say-hello
+    //    Hello World!
+
+    // User defined words likely has to be implemented first.
+}
+
+
+// Stack manipulation
+void Dup(stack* s) {
+    // Duplicate the top item in the stack
+    int a = pop(s);
+    push(s,a);
+    push(s,a);
+}
 
 void Drop(stack* s)
 {
+    // Pop the stack with no output
     pop(s);
 }
+
 void Swap(stack* s)
 {
+    // x 1 2 -> 2 1
+    // - a b -> b a 
     int b = pop(s);
     int a = pop(s);
     push(s,b);
@@ -58,7 +84,11 @@ void Over(stack* s)
 {
     // 1 2 3 -> 1 2 3 2
     // - a b -> - a b a
-    
+    int b = pop(s);
+    int a = pop(s);
+    push(s,a);
+    push(s,b);
+    push(s,a);
 }
 
 void Rot(stack* s)
@@ -72,6 +102,9 @@ void Rot(stack* s)
     push(s,c); 
     push(s,a);
 }
+
+
+// Comparisons
 
 void Equals (stack* s) {
     int b = pop(s);
@@ -92,8 +125,17 @@ void Equals (stack* s) {
     // push(s, (a == b) * -1)
 }
 
-void LessThan (stack* s);
-void GreaterThan (stack* s);
+void LessThan (stack* s) {
+    int b = pop(s);
+    int a = pop(s);
+    push(s, a < b ? -1: 0);
+}
+
+void GreaterThan (stack* s) {
+    int b = pop(s);
+    int a = pop(s);
+    push(s, a > b ? -1: 0);
+}
 
 void And(stack* s)
 {
@@ -107,7 +149,11 @@ void And(stack* s)
         push(s, 0);
 }
 
-void Or(stack* s);
+void Or(stack* s) {
+    int b = pop(s);
+    int a = pop(s);
+    push(s, a == -1 || b == -1 ? -1: 0);
+}
 
 void Not(stack* s)
 {
@@ -118,6 +164,9 @@ void Not(stack* s)
     else 
         push(s, -1);
 }
+
+
+// Conditionals
 
 void If(stack* s)
 {
