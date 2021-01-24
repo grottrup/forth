@@ -26,6 +26,10 @@
 
 static node sentinel = {NULL, 0};
 
+/**
+ * @brief Initialize stack with no data
+ * @param s 
+ */
 void init_stack(stack* s)
 {
   s->top = &sentinel;
@@ -106,6 +110,10 @@ void print_stack(stack* s) {
     printf("<- Top\n");
 }
 
+/**
+ * @brief Free the stack from the heap to avoid memory leak
+ * @param s 
+ */
 void free_stack(stack* s)
 {
     while(!stack_is_empty(s))
