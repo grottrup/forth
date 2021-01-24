@@ -3,7 +3,7 @@
 //#define LOOKUP_COMPARE_FUNCTION strcmp // Case sensitive
 #define LOOKUP_COMPARE_FUNCTION strcasecmp // Case insensitive
 
-user_dict_entry* user_dict_initialize() {
+user_dict_entry* user_dict_initialize(void) {
     user_dict_entry* d = malloc(sizeof(user_dict_entry));
     d->name = "";
     d->body = "";
@@ -82,7 +82,7 @@ void sys_dict_add_entry(const char* name, void (*execute)(stack*), sys_dict_entr
         sys_dict_add_entry(name, execute, dict->next_entry);
 }
 
-sys_dict_entry* sys_dict_initialize(){
+sys_dict_entry* sys_dict_initialize(void){
     sys_dict_entry* d = malloc(sizeof(sys_dict_entry));
     d->name = "";
     d->execute = NULL;
@@ -98,7 +98,7 @@ sys_dict_entry* sys_dict_initialize(){
     sys_dict_add_entry(".", Dot, d);
     sys_dict_add_entry("EMIT", Emit, d);
     sys_dict_add_entry("CR", CR, d);
-    //sys_dict_add_entry(".\"", Qmark, d);
+    sys_dict_add_entry("\"", Qmark, d);
 
     // Data stack
     sys_dict_add_entry("DROP", Drop, d);
