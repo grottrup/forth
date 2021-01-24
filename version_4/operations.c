@@ -28,7 +28,7 @@ void Divide(stack* s){
 
 void Emit(stack* s){
     int a = pop(s); // the con... too much work
-    printf("%c\n", a);
+    printf("%c", a);
     // another option: extend the stack to have a read head fucntion
 }
 
@@ -36,7 +36,7 @@ void CR(stack* s);
 
 void Dot(stack* s) {
     int a = pop(s);
-    printf("%d\n", a);
+    printf("%d", a);
 }
 
 void Qmark(stack* s);
