@@ -15,7 +15,7 @@ bool is_number(const char* str) {
         for (size_t j = 1; c != 0; j++) {
             if (c != '0')
                 return false;
-            c = str[0];
+            c = str[j];
         }
         return true;
     }
