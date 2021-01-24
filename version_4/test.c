@@ -95,5 +95,5 @@ void manual_test() {
 void main() {
     test();
     if (_VIS_AUT_TEST) printf("Success!\n");
-    manual_test();
+    // manual_test(); // commented out to see whether the automatic tests work
 }
