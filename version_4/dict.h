@@ -10,18 +10,18 @@
     The dictionary of user defined words, implemented as a linked list.
     It contains
         - keyword : a string specifing the userdefined word
-        - body : a string of space seperated words to be parsed when called
+        - definition : a string of space seperated words to be parsed when called
 */
 typedef struct user_dict_entry
 {
     const char* keyword;
-    const char* body;
+    const char* definition;
     struct user_dict_entry* next_entry;
 } user_dict_entry;
 
 user_dict_entry* user_dict_initialize(void);
 /* The user makes their own word in the RIPL etc*/
-void user_dict_assign(const char* keyword, const char* body, user_dict_entry* dict);
+void user_dict_assign(const char* keyword, const char* definition, user_dict_entry* dict);
 void user_dict_unassign(const char* keyword, user_dict_entry* dict);
 bool user_dict_entry_exists(const char* keyword, user_dict_entry* dict);
 const char* user_dict_get_entry(const char* keyword, user_dict_entry* dict);
