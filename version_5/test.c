@@ -54,10 +54,8 @@ void test_arithmetics(void)
     free_stack(&s);
 }
 
-
-void test() {
-    if (_SHOW_AUTO_TESTS) printf("~ INIT ~\n");
-    test_arithmetics(); // temporary placement. clean up other tests...
+void test_dictionary(void)
+{
     user_dict_entry* ud = user_dict_initialize();
     sys_dict_entry* sd = sys_dict_initialize();
     stack si;
@@ -107,6 +105,12 @@ void test() {
     // assert(!user_dict_entry_exists("test", ud));
 }
 
+void auto_test() {
+    if (_SHOW_AUTO_TESTS) printf("~ INIT ~\n");
+    test_arithmetics(); // temporary placement. clean up other tests...
+    test_dictionary();
+}
+
 void manual_test() {
     user_dict_entry* ud = user_dict_initialize();
     user_dict_assign("test", "1 2 3 + -", ud); // remove
@@ -141,7 +145,7 @@ void manual_test() {
 
 int main(int argc, char *argv[])
 {
-    test();
+    auto_test();
     if (_SHOW_AUTO_TESTS) printf("Success!\n");
     if(argc > 1)
         manual_test(); // commented out to see whether the automatic tests work
