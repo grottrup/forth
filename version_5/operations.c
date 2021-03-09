@@ -181,19 +181,19 @@ void If(stack* s, char* body)
     // If false, parse from ELSE to THEN
     // If true, parse from IF to ELSE
 
-    char* true_body;
-    char* false_body;
+    // char* true_body;
+    // char* false_body;
 
-    true_body = strsep(&body, "ELSE");
-    false_body = strsep(&body, "THEN");
+    // true_body = strsep(&body, "ELSE");
+    // false_body = strsep(&body, "THEN");
     
-    int a = pop(s);
+    // int a = pop(s);
     
-    if (a == 0) {
-        body = return_str;
-    } else {
-        body = return_str;
-    }
+    // if (a == 0) {
+    //     body = return_str;
+    // } else {
+    //     body = return_str;
+    // }
 }
 
 void Else(stack* s);
