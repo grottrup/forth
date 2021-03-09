@@ -3,90 +3,90 @@
 //#define LOOKUP_COMPARE_FUNCTION strcmp // Case sensitive
 #define LOOKUP_COMPARE_FUNCTION strcasecmp // Case insensitive
 
-user_dict_entry* user_dict_initialize(void) {
-    user_dict_entry* d = malloc(sizeof(user_dict_entry));
-    d->keyword = "";
-    d->definition = "";
-    d->next_entry = NULL;
+user_dict* user_dict_initialize(void) {
+    user_dict* d = malloc(sizeof(user_dict));
+    d->entry.keyword = "";
+    d->entry.definition = "";
+    d->next = NULL;
     return d;
 }
 
-void user_dict_assign(const char* keyword, const char* definition, user_dict_entry* dict){
-    user_dict_entry* entry = dict;
-    user_dict_entry* new_entry = malloc(sizeof(user_dict_entry));
+void user_dict_assign(const char* keyword, const char* definition, user_dict* dict){
+    user_dict* entry = dict;
+    user_dict* new_entry = malloc(sizeof(user_dict));
 
-    new_entry->keyword = keyword; //
-    new_entry->definition = definition;
-    new_entry->next_entry = NULL;
+    new_entry->entry.keyword = keyword; //
+    new_entry->entry.definition = definition;
+    new_entry->next = NULL;
 
     if (dict == NULL)
         return; // TOO DEEP
-    else if (dict->next_entry == NULL) 
+    else if (dict->next == NULL) 
         // ADD ENTRY
-        dict->next_entry = new_entry;
-    else if (LOOKUP_COMPARE_FUNCTION(dict->keyword, keyword) == 0)
-        dict->definition = definition; // Overwrites existing entry
+        dict->next = new_entry;
+    else if (LOOKUP_COMPARE_FUNCTION(dict->entry.keyword, keyword) == 0)
+        dict->entry.definition = definition; // Overwrites existing entry
     else
-        user_dict_assign(keyword, definition, dict->next_entry);
+        user_dict_assign(keyword, definition, dict->next);
 }
 
-void user_dict_unassign(const char* keyword, user_dict_entry* dict){
-    user_dict_entry* entry = dict;
-    if (entry == NULL || LOOKUP_COMPARE_FUNCTION(entry->keyword, keyword) == 0)
+void user_dict_unassign(const char* keyword, user_dict* dict){
+    user_dict* entry = dict;
+    if (entry == NULL || LOOKUP_COMPARE_FUNCTION(entry->entry.keyword, keyword) == 0)
         return; // TOO DEEP
-    else if (LOOKUP_COMPARE_FUNCTION(entry->next_entry->keyword, keyword) == 0) {
-        user_dict_entry* entry_to_remove = entry->next_entry;
-        user_dict_entry* following_entry = entry_to_remove->next_entry;
+    else if (LOOKUP_COMPARE_FUNCTION(entry->next->entry.keyword, keyword) == 0) {
+        user_dict* entry_to_remove = entry->next;
+        user_dict* following_entry = entry_to_remove->next;
 
         free(entry_to_remove);
-        entry->next_entry = following_entry;
+        entry->next = following_entry;
     }
     else 
-        user_dict_unassign(keyword, entry->next_entry);
+        user_dict_unassign(keyword, entry->next);
 }
 
-bool user_dict_entry_exists(const char* keyword, user_dict_entry* dict){
+bool user_dict_entry_exists(const char* keyword, user_dict* dict){
     if (dict == NULL)
         return false;
-    else if (LOOKUP_COMPARE_FUNCTION(dict->keyword, keyword) == 0)
+    else if (LOOKUP_COMPARE_FUNCTION(dict->entry.keyword, keyword) == 0)
         return true;
     else
-        return user_dict_entry_exists(keyword, dict->next_entry);
+        return user_dict_entry_exists(keyword, dict->next);
 }
 
-const char* user_dict_get_entry(const char* keyword, user_dict_entry* dict){
+const char* user_dict_get_entry(const char* keyword, user_dict* dict){
     if (dict == NULL)
         return "";
-    else if (LOOKUP_COMPARE_FUNCTION(dict->keyword, keyword) == 0)
-        return dict->definition;
+    else if (LOOKUP_COMPARE_FUNCTION(dict->entry.keyword, keyword) == 0)
+        return dict->entry.definition;
     else
-        return user_dict_get_entry(keyword, dict->next_entry);
+        return user_dict_get_entry(keyword, dict->next);
 }
 
 
 
-void sys_dict_add_entry(const char* keyword, void (*execute)(stack*), sys_dict_entry* dict) {
-    sys_dict_entry* entry = dict;
-    sys_dict_entry* new_entry = malloc(sizeof(sys_dict_entry));
+void sys_dict_add_entry(const char* keyword, void (*execute)(stack*), sys_dict* dict) {
+    sys_dict* entry = dict;
+    sys_dict* new_entry = malloc(sizeof(sys_dict));
 
     new_entry->entry.keyword = keyword;
     new_entry->entry.execute = execute;
-    new_entry->next_entry = NULL;
+    new_entry->next = NULL;
 
     if (dict == NULL)
         return; // TOO DEEP
-    else if (dict->next_entry == NULL) 
+    else if (dict->next == NULL) 
         // ADD ENTRY
-        dict->next_entry = new_entry;
+        dict->next = new_entry;
     else
-        sys_dict_add_entry(keyword, execute, dict->next_entry);
+        sys_dict_add_entry(keyword, execute, dict->next);
 }
 
-sys_dict_entry* sys_dict_initialize(void){
-    sys_dict_entry* d = malloc(sizeof(sys_dict_entry));
+sys_dict* sys_dict_initialize(void){
+    sys_dict* d = malloc(sizeof(sys_dict));
     d->entry.keyword = "";
     d->entry.execute = NULL;
-    d->next_entry = NULL;
+    d->next = NULL;
 
     // Arithmetics
     sys_dict_add_entry("+", Add, d);
@@ -118,20 +118,20 @@ sys_dict_entry* sys_dict_initialize(void){
     return d;
 }
 
-void sys_dict_execute(const char* keyword, sys_dict_entry* dict, stack* s) {
+void sys_dict_execute(const char* keyword, sys_dict* dict, stack* s) {
     if (dict == NULL)
         return;
     else if (LOOKUP_COMPARE_FUNCTION(dict->entry.keyword, keyword) == 0)
         dict->entry.execute(s);
     else
-        sys_dict_execute(keyword, dict->next_entry, s);
+        sys_dict_execute(keyword, dict->next, s);
 }
 
-bool sys_dict_entry_exists(const char* keyword, sys_dict_entry* dict){
+bool sys_dict_entry_exists(const char* keyword, sys_dict* dict){
     if (dict == NULL)
         return false;
     else if (LOOKUP_COMPARE_FUNCTION(dict->entry.keyword, keyword) == 0)
         return true;
     else
-        return sys_dict_entry_exists(keyword, dict->next_entry);
+        return sys_dict_entry_exists(keyword, dict->next);
 }

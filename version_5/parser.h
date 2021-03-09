@@ -7,6 +7,6 @@
 #include "dict.h"
 #include "stack.h"
 
-void parse(const char* input, stack* num_stack, sys_dict_entry* sys_dict, user_dict_entry* user_dict); // Parse forth input, whitespace seperated list of words
+void parse(const char* input, stack* num_stack, sys_dict* sys_dict, user_dict* user_dict); // Parse forth input, whitespace seperated list of words
 
 #endif

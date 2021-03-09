@@ -3,17 +3,13 @@
 //#define LOOKUP_COMPARE_FUNCTION strcmp // Case sensitive
 #define LOOKUP_COMPARE_FUNCTION strcasecmp // Case insensitive
 
-// typedef enum parse_type
-// {
-//     UNKNOWN,
-//     NUMBER,
-//     COMMAND,
-//     USER_COMMAND,
-//     DEFINITION,
-//     UNDEFINITION,
-//     IF_STATEMENT,
-//     COMMAND_QMARK, // remember to refactor
-// } parse_t;
+typedef enum parse_type
+{
+    UNKNOWN,
+    NUMBER,
+    COMMAND,
+    USER_COMMAND,
+} parse_t;
 
 bool is_number(const char* str)
 {
@@ -40,48 +36,51 @@ bool is_number(const char* str)
     }
 }
 
-// parse_t get_parse_type(const char* word, sys_dict_entry* sys_dict, user_dict_entry* user_dict)
-// {
-//     if(is_number(word))
-//         return NUMBER;
-//     else if(sys_dict_entry_exists(word, sys_dict))
-//         return COMMAND;
-//     else if(user_dict_entry_exists(word, user_dict))
-//         return USER_COMMAND;
-//     else if(LOOKUP_COMPARE_FUNCTION(word, ":") == 0)
-//         return DEFINITION;
-//     else if (LOOKUP_COMPARE_FUNCTION(word, "-:") == 0)
-//         return UNDEFINITION;
-//     else if(LOOKUP_COMPARE_FUNCTION(word, ";") == 0)
-//         return COMMAND_QMARK;
-//     else if(LOOKUP_COMPARE_FUNCTION(word, "IF") == 0)
-//         return IF_STATEMENT;
-//     else
-//         return UNKNOWN;
-// }
+parse_t get_parse_type(const char* word, sys_dict* sys_dict, user_dict* user_dict)
+{
+    if(is_number(word))
+        return NUMBER;
+    else if(sys_dict_entry_exists(word, sys_dict))
+        return COMMAND;
+    else if(user_dict_entry_exists(word, user_dict))
+        return USER_COMMAND;
+    else
+        return UNKNOWN;
+}
 
 
-bool is_command(const char* str, sys_dict_entry* sys_dict)
+bool is_command(const char* str, sys_dict* sys_dict)
 {
     return sys_dict_entry_exists(str, sys_dict);
 }
 
-bool is_user_word(const char* str, user_dict_entry* user_dict)
+bool is_user_word(const char* str, user_dict* user_dict)
 {
     return user_dict_entry_exists(str, user_dict);
 }
 
-void parse(const char* input, stack* num_stack, sys_dict_entry* sys_dict,
-           user_dict_entry* user_dict)
+void parse_helper(parse_t t, char* word, stack* num_stack, sys_dict* sys_dict,
+           user_dict* user_dict)
 {
-    /*  for each word in input:
-            if word is_number:
-                push number to stack
-            if word is_command:
-                run command
-            if word is_user_word:
-                parse word entry in user dictionary
-    */
+    switch (t)
+    {
+    case NUMBER:
+        push(num_stack, atoi(word));
+        break;
+    case COMMAND:
+        sys_dict_execute(word, sys_dict, num_stack);
+        break;
+    case USER_COMMAND:
+        parse(user_dict_get_entry(word, user_dict), num_stack, sys_dict, user_dict);
+        break;
+    default:
+        break;
+    }
+}
+
+void parse(const char* input, stack* num_stack, sys_dict* sys_dict,
+           user_dict* user_dict)
+{
 
     char* remaining_to_read; // The remainder of the input string
     char* word;              // THe current word in the loop
@@ -96,20 +95,11 @@ void parse(const char* input, stack* num_stack, sys_dict_entry* sys_dict,
             // This happens if there's a double space or a trailing space.
         }
 
-        else if (is_number(word))
+        parse_t parse_type = get_parse_type(word,sys_dict,user_dict);
+        if(parse_type != UNKNOWN) // refactor code below until there are no unknown
         {
-            push(num_stack, atoi(word));
+            parse_helper(parse_type, word, num_stack, sys_dict,user_dict);
         }
-
-        else if (is_command(word, sys_dict))
-        {
-            sys_dict_execute(word, sys_dict, num_stack);
-        }
-        else if (is_user_word(word, user_dict))
-        {
-            parse(user_dict_get_entry(word, user_dict), num_stack, sys_dict, user_dict);
-        }
-
         else if (LOOKUP_COMPARE_FUNCTION(word, ".\"") == 0)
         {
             // Cannot use current sys dict implementation to print strings through that

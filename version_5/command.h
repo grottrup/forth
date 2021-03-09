@@ -8,4 +8,10 @@ typedef struct command
     void (*execute)(stack*);
 } command;
 
+typedef struct user_command
+{
+    const char* keyword;
+    const char* definition;
+} user_command;
+
 #endif // !_COMMAND_H_

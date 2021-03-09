@@ -56,8 +56,8 @@ void test_arithmetics(void)
 
 void test_dictionary(void)
 {
-    user_dict_entry* ud = user_dict_initialize();
-    sys_dict_entry* sd = sys_dict_initialize();
+    user_dict* ud = user_dict_initialize();
+    sys_dict* sd = sys_dict_initialize();
     stack si;
     init_stack(&si);
     stack* s = &si;
@@ -112,9 +112,9 @@ void auto_test() {
 }
 
 void manual_test() {
-    user_dict_entry* ud = user_dict_initialize();
+    user_dict* ud = user_dict_initialize();
     user_dict_assign("test", "1 2 3 + -", ud); // remove
-    sys_dict_entry* sd = sys_dict_initialize();
+    sys_dict* sd = sys_dict_initialize();
     stack si;
     init_stack(&si);
     stack* s = &si;
