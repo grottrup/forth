@@ -21,10 +21,10 @@ typedef struct user_dict
 
 user_dict* user_dict_initialize(void);
 /* The user makes their own word in the RIPL etc*/
-void user_dict_assign(const char* keyword, const char* definition, user_dict* dict);
+void user_dict_assign(const char* keyword,word_node* definition, user_dict* dict);
 void user_dict_unassign(const char* keyword, user_dict* dict);
 bool user_dict_entry_exists(const char* keyword, user_dict* dict);
-const char* user_dict_get_entry(const char* keyword, user_dict* dict);
+word_node* user_dict_get_entry(const char* keyword, user_dict* dict);
 
 /* @summary
     The dictionary of the Forth language defined words. This version uses a linked structure. (Personally I think this is a violation of "seperation by concern", so I think we should later update this implementation)

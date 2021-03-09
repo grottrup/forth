@@ -6,16 +6,16 @@
 user_dict* user_dict_initialize(void) {
     user_dict* d = malloc(sizeof(user_dict));
     d->entry.keyword = "";
-    d->entry.definition = "";
+    d->entry.definition = NULL;
     d->next = NULL;
     return d;
 }
 
-void user_dict_assign(const char* keyword, const char* definition, user_dict* dict){
+void user_dict_assign(const char* keyword, word_node* definition, user_dict* dict){
     user_dict* entry = dict;
     user_dict* new_entry = malloc(sizeof(user_dict));
 
-    new_entry->entry.keyword = keyword; //
+    new_entry->entry.keyword = keyword;
     new_entry->entry.definition = definition;
     new_entry->next = NULL;
 
@@ -54,9 +54,9 @@ bool user_dict_entry_exists(const char* keyword, user_dict* dict){
         return user_dict_entry_exists(keyword, dict->next);
 }
 
-const char* user_dict_get_entry(const char* keyword, user_dict* dict){
+word_node* user_dict_get_entry(const char* keyword, user_dict* dict){
     if (dict == NULL)
-        return "";
+        return NULL;
     else if (LOOKUP_COMPARE_FUNCTION(dict->entry.keyword, keyword) == 0)
         return dict->entry.definition;
     else
