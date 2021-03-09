@@ -87,16 +87,3 @@ void print_list(word_node* list) {
         print_list(list->next_word);
     }
 }
-
-// void main() {
-//     const char* str = "Hello World. What a nice day.";
-//     word_node* list = string_to_sentence(str, NULL);
-
-//     print_list(list);
-
-//     print_list(find_in_sentence("What", list));
-
-//     print_list(last_node(list));
-
-//     destroy_sentence(list);
-// }

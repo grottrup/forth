@@ -14,7 +14,7 @@ debug: all
 test.out: test.c libraries.a
 	$(COMPILER) -o $@ $< -L -l libraries.a
 
-libraries.a: stack.o operations.o parser.o dict.o
+libraries.a: stack.o operations.o parser.o dict.o sentence.o
 	ar rcs $@ $?
 
 dict.o: dict.c
@@ -27,6 +27,9 @@ operations.o: operations.c
 	$(COMPILER) -c $?
 
 stack.o: stack.c
+	$(COMPILER) -c $?
+
+sentence.o: sentence.c
 	$(COMPILER) -c $?
 
 clean:

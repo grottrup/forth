@@ -6,7 +6,7 @@
 #include "parser.h"
 #include "dict.h"
 #include "operations.h"
-
+#include "sentence.h"
 
 #define INP_MAX 80
 
@@ -105,10 +105,24 @@ void test_dictionary(void)
     // assert(!user_dict_entry_exists("test", ud));
 }
 
+void test_sentence() {
+    const char* str = "Hello World. What a nice day.";
+    word_node* list = string_to_sentence(str, NULL);
+
+    print_list(list);
+
+    print_list(find_in_sentence("What", list));
+
+    print_list(last_node(list));
+
+    destroy_sentence(list);
+}
+
 void auto_test() {
     if (_SHOW_AUTO_TESTS) printf("~ INIT ~\n");
     test_arithmetics(); // temporary placement. clean up other tests...
     test_dictionary();
+    test_sentence();
 }
 
 void manual_test() {
