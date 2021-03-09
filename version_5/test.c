@@ -103,7 +103,7 @@ void test_dictionary(void)
         printf("Parser input: \n");
         print_list(words);
     }
-    // parse(words, s, sd, ud); //! change parser?
+    parse(words, s, sd, ud); //! change parser?
     if (_SHOW_AUTO_TESTS) print_stack(s);
     assert(pop(s) == -4);
 
@@ -128,7 +128,6 @@ void test_sentence() {
     destroy_sentence(list);
     }
     {
-    {
         stack s;
         init_stack(&s);
         user_dict* ud = user_dict_initialize();
@@ -143,22 +142,21 @@ void test_sentence() {
         }
         free_stack(&s);
     }
-    }
-    {
-        stack s;
-        init_stack(&s);
-        user_dict* ud = user_dict_initialize();
-        sys_dict* sd = sys_dict_initialize();
-        const char* str = ": is-it-zero?  0 = if -1 then . ;";
-        word_node* list = break_string_into_tokens(str, NULL);
-        word_node* ite = list;
-        while(ite != NULL)
-        {
-            parse(ite->word, &s, sd, ud);
-            ite = ite->next_word;
-        }
-        free_stack(&s);
-    }
+    // {
+    //     stack s;
+    //     init_stack(&s);
+    //     user_dict* ud = user_dict_initialize();
+    //     sys_dict* sd = sys_dict_initialize();
+    //     const char* str = ": is-it-zero?  0 = if -1 then . ;";
+    //     word_node* list = break_string_into_tokens(str, NULL);
+    //     word_node* ite = list;
+    //     while(ite != NULL)
+    //     {
+    //         parse(ite->word, &s, sd, ud);
+    //         ite = ite->next_word;
+    //     }
+    //     free_stack(&s);
+    // }
     {
         // stack s;
         // init_stack(&s);
@@ -181,9 +179,24 @@ void test_sentence() {
 
 void auto_test() {
     if (_SHOW_AUTO_TESTS) printf("~ INIT ~\n");
-    test_arithmetics(); // temporary placement. clean up other tests...
+    // test_arithmetics(); // temporary placement. clean up other tests...
     test_dictionary();
-    test_sentence();
+    {
+        stack s;
+        init_stack(&s);
+        user_dict* ud = user_dict_initialize();
+        sys_dict* sd = sys_dict_initialize();
+        const char* str = ".\" hej du \" .\" hi you \""; // pop two and check that they are the same
+        word_node* list = break_string_into_tokens(str, NULL);
+        word_node* ite = list;
+        while(ite != NULL)
+        {
+            parse(ite, &s, sd, ud);
+            ite = ite->next_word;
+        }
+        free_stack(&s);
+    }
+    // test_sentence();
 }
 
 void manual_test() {
@@ -208,10 +221,10 @@ void manual_test() {
         }
 
         // Remove the newline
-        for (int i = 0; i < INP_MAX+1; i++) {
-            if (inp[i] == '\n')
-                inp[i] = 0x0;
-        }
+        // for (int i = 0; i < INP_MAX+1; i++) {
+        //     if (inp[i] == '\n')
+        //         inp[i] = 0x0;
+        // }
         //printf("\"%s\"\n",inp);
         word_node* inputs = break_string_into_tokens((const char*) &inp, NULL);
         parse(inputs, s, sd, ud);

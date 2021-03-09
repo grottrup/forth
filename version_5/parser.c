@@ -78,15 +78,12 @@ void parse_helper(parse_t t, char* word, stack* num_stack, sys_dict* sys_dict,
     }
 }
 
-void parse(word_node* input, stack* num_stack, sys_dict* sys_dict,
+void parse_helper2(parse_t parse_type, word_node* ite, stack* num_stack, sys_dict* sys_dict,
            user_dict* user_dict)
 {
-    word_node* ite = input;
-    while (input != NULL)
-    {
-        char* word = (char*)input->word;
-        parse_t parse_type = get_parse_type(word,sys_dict,user_dict);
-        if(parse_type != UNKNOWN) // refactor code below until there are no unknown
+    char* word = (char*)ite->word;
+
+    if(parse_type != UNKNOWN) // refactor code below until there are no unknown
         {
             parse_helper(parse_type, word, num_stack, sys_dict,user_dict);
         }
@@ -132,5 +129,33 @@ void parse(word_node* input, stack* num_stack, sys_dict* sys_dict,
         {
             printf("%s ?\n", word);
         }
+}
+
+void parse(word_node* input, stack* num_stack, sys_dict* sys_dict,
+           user_dict* user_dict)
+{
+    word_node* ite = input;
+    while (ite != NULL)
+    {
+        char* word = (char*)ite->word;
+        parse_t parse_type = get_parse_type(word ,sys_dict,user_dict);
+       // parse_helper2(parse_type, ite, num_stack, sys_dict,user_dict);
+
+        if(parse_type != UNKNOWN) // refactor code below until there are no unknown
+        {
+            parse_helper(parse_type, word, num_stack, sys_dict,user_dict);
+        }
+        else if (LOOKUP_COMPARE_FUNCTION(word, ".\"") == 0)
+        {
+            ite = ite->next_word;
+            while (LOOKUP_COMPARE_FUNCTION(ite->word, "\"") != 0)
+            {
+                printf("%s ", ite->word);
+                ite = ite->next_word;
+            }
+            printf("\n");
+        }
+        
+        ite = ite->next_word;
     }
 }
