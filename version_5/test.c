@@ -64,7 +64,7 @@ void test_dictionary(void)
 
     /// ADD A USER ENTRY
     if (_SHOW_AUTO_TESTS) printf("~ ADD ~\n");
-    const char* str = "1 2 3 + -";
+    char* str = "1 2 3 + -";
     word_node* list = break_string_into_tokens(str);
     user_dict_assign("test", list, ud);
     assert(user_dict_entry_exists("test", ud));
@@ -117,7 +117,7 @@ void test_dictionary(void)
 
 void test_sentence() {
     {/* Token test */
-    const char* str = "Hello World. What a nice day.";
+    char* str = "Hello World. What a nice day.";
     word_node* list = break_string_into_tokens(str);
 
     print_list(list);
@@ -133,26 +133,26 @@ void test_sentence() {
         init_stack(&s);
         user_dict* ud = user_dict_initialize();
         sys_dict* sd = sys_dict_initialize();
-        const char* str = "0 0 = ."; // pop two and check that they are the same
+        char* str = "0 0 = ."; // pop two and check that they are the same
         word_node* list = break_string_into_tokens(str);
         parse(list, &s, sd, ud);
         free_stack(&s);
     }
-    // {
-    //     stack s;
-    //     init_stack(&s);
-    //     user_dict* ud = user_dict_initialize();
-    //     sys_dict* sd = sys_dict_initialize();
-    //     const char* str = ": is-it-zero?  0 = if -1 then . ;";
-    //     word_node* list = break_string_into_tokens(str, NULL);
-    //     word_node* ite = list;
-    //     while(ite != NULL)
-    //     {
-    //         parse(ite->word, &s, sd, ud);
-    //         ite = ite->next_word;
-    //     }
-    //     free_stack(&s);
-    // }
+    {
+        // stack s;
+        // init_stack(&s);
+        // user_dict* ud = user_dict_initialize();
+        // sys_dict* sd = sys_dict_initialize();
+        // const char* str = ": is-it-zero?  0 = if -1 then . ;";
+        // word_node* list = break_string_into_tokens(str);
+        // word_node* ite = list;
+        // while(ite != NULL)
+        // {
+        //     parse(ite->word, &s, sd, ud);
+        //     ite = ite->next_word;
+        // }
+        // free_stack(&s);
+    }
     {
         // stack s;
         // init_stack(&s);
@@ -182,15 +182,15 @@ void auto_test() {
         init_stack(&s);
         user_dict* ud = user_dict_initialize();
         sys_dict* sd = sys_dict_initialize();
-        const char* str = ".\" hej du \" .\" hi you \""; // pop two and check that they are the same
+        char* str = ".\" hej du \" .\" hi you \""; // pop two and check that they are the same
         word_node* list = break_string_into_tokens(str);
-        parse(list, &s, sd, ud);
-        // word_node* ite = list;
-        // while(ite != NULL)
-        // {
-        //     parse(ite, &s, sd, ud);
-        //     ite = ite->next_word;
-        // }
+        
+        word_node* ite = list;
+        while(ite != NULL)
+        {
+            parse(ite, &s, sd, ud); // refactor parse to be recursive // parse(list, &s, sd, ud);
+            ite = ite->next_word;
+        }
         free_stack(&s);
     }
     test_sentence();
@@ -198,7 +198,7 @@ void auto_test() {
 
 void manual_test() {
     user_dict* ud = user_dict_initialize();
-    const char* str = "1 2 3 + -";
+    char* str = "1 2 3 + -";
     word_node* list = break_string_into_tokens(str);
     user_dict_assign("test", list, ud); // remove
     sys_dict* sd = sys_dict_initialize();
@@ -223,7 +223,7 @@ void manual_test() {
         //         inp[i] = 0x0;
         // }
         //printf("\"%s\"\n",inp);
-        word_node* inputs = break_string_into_tokens((const char*) &inp);
+        word_node* inputs = break_string_into_tokens((char*) &inp);
         parse(inputs, s, sd, ud);
         printf("\n");
         print_stack(s);

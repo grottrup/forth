@@ -9,7 +9,7 @@ word_node* word_node_ctor(const char* word, word_node* next)
     return node;
 }
 
-word_node* _break_string_into_tokens(const char* src_cpy, char* saveptr)
+word_node* _break_string_into_tokens(char* src_cpy, char* saveptr)
 {
     word_node* node;
     char* token;
@@ -34,7 +34,6 @@ word_node* _break_string_into_tokens(const char* src_cpy, char* saveptr)
         // Make a node with the token, and make the next pointer using recursion.
         node = word_node_ctor(token_copy, _break_string_into_tokens(src_cpy, saveptr));
     }
-
     return node;
 }
 
@@ -44,11 +43,11 @@ word_node* _break_string_into_tokens(const char* src_cpy, char* saveptr)
  * @param src original string
  * @return word_node* a word/token with a link to the next word
  */
-word_node* break_string_into_tokens2(const char* src)
+word_node* break_string_into_tokens(char* src)
 {
     char* src_cpy = malloc(strlen(src));
     strcpy(src_cpy, src);
-    word_node* tokens = _break_string_into_tokens(src, NULL);
+    word_node* tokens = _break_string_into_tokens(src_cpy, NULL);
     free(src_cpy);
     return tokens;
 }
@@ -85,7 +84,7 @@ word_node* old_break_string_into_tokens(const char* src, char* saveptr) {
     return node;
 }
 
-word_node* break_string_into_tokens(const char* src)
+word_node* break_string_into_tokens2(const char* src)
 {
     return old_break_string_into_tokens(src, NULL);
 }
