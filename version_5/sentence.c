@@ -14,14 +14,14 @@ word_node* _break_string_into_tokens(const char* src_cpy, char* saveptr)
     word_node* node;
     char* token;
 
-    if (saveptr == NULL)
+    if (saveptr == NULL) // does this only happens the first time?
         token = strtok_r(src_cpy, " ", &saveptr);
     else
         token = strtok_r(NULL, " ", &saveptr);
 
     if (token == NULL)
     {
-        node = NULL; //! base case: no more words
+        node = NULL; //! base case: no more words.. add tail to list
     }
     else
     {
@@ -32,18 +32,15 @@ word_node* _break_string_into_tokens(const char* src_cpy, char* saveptr)
         strcpy(token_copy, token);
 
         // Make a node with the token, and make the next pointer using recursion.
-        node = word_node_ctor(token_copy, _break_string_into_tokens(src_cpy, saveptr) //! recursion
-        );
+        node = word_node_ctor(token_copy, _break_string_into_tokens(src_cpy, saveptr));
     }
 
-    free(src_cpy);
     return node;
 }
 
 /**
  * @brief
- * Turn a string with whitespace into a linked list of words. When calling, saveptr should be NULL;
- * it's used for recursive calls.
+ * Turn a string with whitespace into a linked list of words.
  * @param src original string
  * @return word_node* a word/token with a link to the next word
  */
@@ -51,7 +48,9 @@ word_node* break_string_into_tokens(const char* src)
 {
     char* src_cpy = malloc(strlen(src));
     strcpy(src_cpy, src);
-    return _break_string_into_tokens(src, NULL);
+    word_node* tokens = _break_string_into_tokens(src, NULL);
+    free(src_cpy);
+    return tokens;
 }
 
 // Remove and free all nodes in a list
