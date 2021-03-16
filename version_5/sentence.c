@@ -1,18 +1,14 @@
 #include "sentence.h"
 #include <stdio.h>
 
-// Creates a node
-word_node* new_node(const char* word, word_node* next) {
+word_node* word_node_ctor(const char* word, word_node* next) {
     word_node* node = malloc(sizeof(word_node));
     node->word = word;
     node->next_word = next;
     return node;
 }
 
-// Turn a string with whitespace into a linked list of words. When calling, saveptr should be NULL; it's used for recursive calls.
-word_node* break_string_into_tokens(const char* src, char* saveptr) {
-    char* src_cpy = malloc(strlen(src));
-    strcpy(src_cpy, src);
+word_node* _break_string_into_tokens(const char* src_cpy, char* saveptr) {
     word_node* node;
     char* token;
 
@@ -32,14 +28,26 @@ word_node* break_string_into_tokens(const char* src, char* saveptr) {
         strcpy(token_copy, token);
 
         // Make a node with the token, and make the next pointer using recursion.
-        node = new_node(
+        node = word_node_ctor(
             token_copy,
-            break_string_into_tokens(src_cpy, saveptr) //! recursion :)
+            _break_string_into_tokens(src_cpy, saveptr) //! recursion
         );
     }
 
     free(src_cpy);
     return node;
+}
+
+/**
+ * @brief 
+ * Turn a string with whitespace into a linked list of words. When calling, saveptr should be NULL; it's used for recursive calls.
+ * @param src original string
+ * @return word_node* a word/token with a link to the next word
+ */
+word_node* break_string_into_tokens(const char* src) {
+    char* src_cpy = malloc(strlen(src));
+    strcpy(src_cpy, src);
+    return _break_string_into_tokens(src, NULL);
 }
 
 // Remove and free all nodes in a list

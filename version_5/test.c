@@ -65,7 +65,7 @@ void test_dictionary(void)
     /// ADD A USER ENTRY
     if (_SHOW_AUTO_TESTS) printf("~ ADD ~\n");
     const char* str = "1 2 3 + -";
-    word_node* list = break_string_into_tokens(str, NULL);
+    word_node* list = break_string_into_tokens(str);
     user_dict_assign("test", list, ud);
     assert(user_dict_entry_exists("test", ud));
 
@@ -133,7 +133,7 @@ void test_sentence() {
         user_dict* ud = user_dict_initialize();
         sys_dict* sd = sys_dict_initialize();
         const char* str = "0 0 = ."; // pop two and check that they are the same
-        word_node* list = break_string_into_tokens(str, NULL);
+        word_node* list = break_string_into_tokens(str);
         word_node* ite = list;
         while(ite != NULL)
         {
@@ -202,7 +202,7 @@ void auto_test() {
 void manual_test() {
     user_dict* ud = user_dict_initialize();
     const char* str = "1 2 3 + -";
-    word_node* list = break_string_into_tokens(str, NULL);
+    word_node* list = break_string_into_tokens(str);
     user_dict_assign("test", list, ud); // remove
     sys_dict* sd = sys_dict_initialize();
     stack si;
@@ -226,7 +226,7 @@ void manual_test() {
         //         inp[i] = 0x0;
         // }
         //printf("\"%s\"\n",inp);
-        word_node* inputs = break_string_into_tokens((const char*) &inp, NULL);
+        word_node* inputs = break_string_into_tokens((const char*) &inp);
         parse(inputs, s, sd, ud);
         printf("\n");
         print_stack(s);
