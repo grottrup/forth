@@ -77,36 +77,37 @@ void test_dictionary(void)
         print_list(words);
     }
 
-
+    {
     /// TEST EXECUTION OF SYSTEM ENTRY
-    if (_SHOW_AUTO_TESTS) printf("~ EXEC ~\n");
-    push(s, 5);
-    push(s, 7);
-    if (_SHOW_AUTO_TESTS) print_stack(s);
-    if (_SHOW_AUTO_TESTS) printf("+\n");
-    sys_dict_execute("+", sd, s);
-    if (_SHOW_AUTO_TESTS) print_stack(s);
-    assert(pop(s) == 12);
+        if (_SHOW_AUTO_TESTS) printf("~ EXEC ~\n");
+        push(s, 5);
+        push(s, 7);
+        if (_SHOW_AUTO_TESTS) print_stack(s);
+        if (_SHOW_AUTO_TESTS) printf("+\n");
+        sys_dict_execute("+", sd, s);
+        if (_SHOW_AUTO_TESTS) print_stack(s);
+        assert(pop(s) == 12);
 
-    push(s, 5);
-    push(s, 7);
-    if (_SHOW_AUTO_TESTS) print_stack(s);
-    if (_SHOW_AUTO_TESTS) printf("-\n");
-    sys_dict_execute("-", sd, s);
-    if (_SHOW_AUTO_TESTS) print_stack(s);
-    assert(pop(s) == -2);
-
-
-    /// TEST PARSER ON USER ENTRY
-    if (_SHOW_AUTO_TESTS) printf("~ PARSE ~\n");
-    if (_SHOW_AUTO_TESTS) {
-        printf("Parser input: \n");
-        print_list(words);
+        push(s, 5);
+        push(s, 7);
+        if (_SHOW_AUTO_TESTS) print_stack(s);
+        if (_SHOW_AUTO_TESTS) printf("-\n");
+        sys_dict_execute("-", sd, s);
+        if (_SHOW_AUTO_TESTS) print_stack(s);
+        assert(pop(s) == -2);
     }
-    parse(words, s, sd, ud); //! change parser?
-    if (_SHOW_AUTO_TESTS) print_stack(s);
-    assert(pop(s) == -4);
 
+    {
+    /// TEST PARSER ON USER ENTRY
+        if (_SHOW_AUTO_TESTS) printf("~ PARSE ~\n");
+        if (_SHOW_AUTO_TESTS) {
+            printf("Parser input: \n");
+            print_list(words);
+        }
+        parse(words, s, sd, ud); //! change parser?
+        if (_SHOW_AUTO_TESTS) print_stack(s);
+        assert(pop(s) == -4);
+    }
 
     /// REMOVE USER ENTRY
     // if (_SHOW_AUTO_TESTS) printf("~ REMOVE ~\n");
@@ -117,7 +118,7 @@ void test_dictionary(void)
 void test_sentence() {
     {/* Token test */
     const char* str = "Hello World. What a nice day.";
-    word_node* list = break_string_into_tokens(str, NULL);
+    word_node* list = break_string_into_tokens(str);
 
     print_list(list);
 
@@ -134,12 +135,7 @@ void test_sentence() {
         sys_dict* sd = sys_dict_initialize();
         const char* str = "0 0 = ."; // pop two and check that they are the same
         word_node* list = break_string_into_tokens(str);
-        word_node* ite = list;
-        while(ite != NULL)
-        {
-            parse(ite->word, &s, sd, ud);
-            ite = ite->next_word;
-        }
+        parse(list, &s, sd, ud);
         free_stack(&s);
     }
     // {
@@ -181,22 +177,23 @@ void auto_test() {
     if (_SHOW_AUTO_TESTS) printf("~ INIT ~\n");
     test_arithmetics(); // temporary placement. clean up other tests...
     test_dictionary();
-    // {
-    //     stack s;
-    //     init_stack(&s);
-    //     user_dict* ud = user_dict_initialize();
-    //     sys_dict* sd = sys_dict_initialize();
-    //     const char* str = ".\" hej du \" .\" hi you \""; // pop two and check that they are the same
-    //     word_node* list = break_string_into_tokens(str, NULL);
-    //     word_node* ite = list;
-    //     while(ite != NULL)
-    //     {
-    //         parse(ite, &s, sd, ud);
-    //         ite = ite->next_word;
-    //     }
-    //     free_stack(&s);
-    // }
-    // test_sentence(); // currrently causes segmentation error
+    {
+        stack s;
+        init_stack(&s);
+        user_dict* ud = user_dict_initialize();
+        sys_dict* sd = sys_dict_initialize();
+        const char* str = ".\" hej du \" .\" hi you \""; // pop two and check that they are the same
+        word_node* list = break_string_into_tokens(str);
+        parse(list, &s, sd, ud);
+        // word_node* ite = list;
+        // while(ite != NULL)
+        // {
+        //     parse(ite, &s, sd, ud);
+        //     ite = ite->next_word;
+        // }
+        free_stack(&s);
+    }
+    test_sentence();
 }
 
 void manual_test() {

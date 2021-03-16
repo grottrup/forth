@@ -44,7 +44,7 @@ word_node* _break_string_into_tokens(const char* src_cpy, char* saveptr)
  * @param src original string
  * @return word_node* a word/token with a link to the next word
  */
-word_node* break_string_into_tokens(const char* src)
+word_node* break_string_into_tokens2(const char* src)
 {
     char* src_cpy = malloc(strlen(src));
     strcpy(src_cpy, src);
@@ -52,6 +52,44 @@ word_node* break_string_into_tokens(const char* src)
     free(src_cpy);
     return tokens;
 }
+
+word_node* old_break_string_into_tokens(const char* src, char* saveptr) {
+    char* src_cpy = malloc(strlen(src));
+    strcpy(src_cpy, src);
+    word_node* node;
+    char* token;
+
+    if (saveptr == NULL)
+        token = strtok_r(src_cpy, " ", &saveptr);
+    else
+        token = strtok_r(NULL, " ", &saveptr);
+
+
+    if (token == NULL) {
+        node = NULL; //! base case: no more words
+    } else {
+        // token is the same as src_copy, so it also has allocated memory for 
+        // the full lenght of the source string. 
+        // This allocates only the space needed for the token.
+        char* token_copy = malloc(strlen(token));
+        strcpy(token_copy, token);
+
+        // Make a node with the token, and make the next pointer using recursion.
+        node = word_node_ctor(
+            token_copy,
+            old_break_string_into_tokens(src_cpy, saveptr) //! recursion :)
+        );
+    }
+
+    free(src_cpy);
+    return node;
+}
+
+word_node* break_string_into_tokens(const char* src)
+{
+    return old_break_string_into_tokens(src, NULL);
+}
+
 
 // Remove and free all nodes in a list
 void destroy_sentence(word_node* list)
