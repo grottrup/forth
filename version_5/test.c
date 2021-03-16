@@ -179,24 +179,24 @@ void test_sentence() {
 
 void auto_test() {
     if (_SHOW_AUTO_TESTS) printf("~ INIT ~\n");
-    // test_arithmetics(); // temporary placement. clean up other tests...
+    test_arithmetics(); // temporary placement. clean up other tests...
     test_dictionary();
-    {
-        stack s;
-        init_stack(&s);
-        user_dict* ud = user_dict_initialize();
-        sys_dict* sd = sys_dict_initialize();
-        const char* str = ".\" hej du \" .\" hi you \""; // pop two and check that they are the same
-        word_node* list = break_string_into_tokens(str, NULL);
-        word_node* ite = list;
-        while(ite != NULL)
-        {
-            parse(ite, &s, sd, ud);
-            ite = ite->next_word;
-        }
-        free_stack(&s);
-    }
-    // test_sentence();
+    // {
+    //     stack s;
+    //     init_stack(&s);
+    //     user_dict* ud = user_dict_initialize();
+    //     sys_dict* sd = sys_dict_initialize();
+    //     const char* str = ".\" hej du \" .\" hi you \""; // pop two and check that they are the same
+    //     word_node* list = break_string_into_tokens(str, NULL);
+    //     word_node* ite = list;
+    //     while(ite != NULL)
+    //     {
+    //         parse(ite, &s, sd, ud);
+    //         ite = ite->next_word;
+    //     }
+    //     free_stack(&s);
+    // }
+    // test_sentence(); // currrently causes segmentation error
 }
 
 void manual_test() {
