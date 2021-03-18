@@ -78,64 +78,84 @@ void parse_helper(parse_t t, char* word, stack* num_stack, sys_dict* sys_dict,
     }
 }
 
-void parse(const char* input, stack* num_stack, sys_dict* sys_dict,
+void parse_helper2(parse_t parse_type, word_node* ite, stack* num_stack, sys_dict* sys_dict,
            user_dict* user_dict)
 {
+    char* word = (char*)ite->word;
 
-    char* remaining_to_read; // The remainder of the input string
-    char* word;              // THe current word in the loop
-
-    remaining_to_read = strdup(input);
-    // strsep(&str, " ") returns the part of the string before the first space, and removes it from
-    // the original string. Returns NULL if no spaces found
-    while ((word = strsep(&remaining_to_read, " ")) != NULL)
-    {
-        if ((*word == 0))
+    if(parse_type != UNKNOWN) // refactor code below until there are no unknown
         {
-            // This happens if there's a double space or a trailing space.
+            parse_helper(parse_type, word, num_stack, sys_dict,user_dict);
+        }
+        else if (LOOKUP_COMPARE_FUNCTION(word, ".\"") == 0)
+        {
+            word_node* printstr = ite;
+            while (LOOKUP_COMPARE_FUNCTION(printstr->next_word->word, "\"") == 0)
+            {
+                printf("%s ", printstr->word);
+                printstr = printstr->next_word;
+            }
+            printf("\n");
         }
 
-        parse_t parse_type = get_parse_type(word,sys_dict,user_dict);
+        // else if (LOOKUP_COMPARE_FUNCTION(word, ":") == 0)
+        // {
+        //     char* keyword;
+        //     char* definition;
+        //     if ((keyword = strsep(&remaining_to_read, " ")) != NULL)
+        //     {
+        //         if ((definition = strsep(&remaining_to_read, ";")) != NULL)
+        //         {
+        //             user_dict_assign(keyword, definition, user_dict);
+        //         }
+        //     }
+        // }
+        // else if (LOOKUP_COMPARE_FUNCTION(word, "-:") == 0)
+        // {
+        //     char* keyword;
+        //     if ((keyword = strsep(&remaining_to_read, " ")) != NULL)
+        //     {
+        //         user_dict_unassign(keyword, user_dict);
+        //     }
+        // }
+        // else if (LOOKUP_COMPARE_FUNCTION(word, "IF") == 0)
+        // {
+        //     char* body;
+        //     if ((body = strsep(&remaining_to_read, "THEN")) != NULL)
+        //     {
+        //     }
+        // }
+        else
+        {
+            printf("%s ?\n", word);
+        }
+}
+
+void parse(word_node* input, stack* num_stack, sys_dict* sys_dict,
+           user_dict* user_dict)
+{
+    word_node* ite = input;
+    while (ite != NULL)
+    {
+        char* word = (char*)ite->word;
+        parse_t parse_type = get_parse_type(word ,sys_dict,user_dict);
+       // parse_helper2(parse_type, ite, num_stack, sys_dict,user_dict);
+
         if(parse_type != UNKNOWN) // refactor code below until there are no unknown
         {
             parse_helper(parse_type, word, num_stack, sys_dict,user_dict);
         }
         else if (LOOKUP_COMPARE_FUNCTION(word, ".\"") == 0)
         {
-            // Cannot use current sys dict implementation to print strings through that
-            printf("%s", strsep(&remaining_to_read, "\""));
-        }
-
-        else if (LOOKUP_COMPARE_FUNCTION(word, ":") == 0)
-        {
-            char* keyword;
-            char* definition;
-            if ((keyword = strsep(&remaining_to_read, " ")) != NULL)
+            ite = ite->next_word;
+            while (LOOKUP_COMPARE_FUNCTION(ite->word, "\"") != 0)
             {
-                if ((definition = strsep(&remaining_to_read, ";")) != NULL)
-                {
-                    user_dict_assign(keyword, definition, user_dict);
-                }
+                printf("%s ", ite->word);
+                ite = ite->next_word;
             }
+            printf("\n");
         }
-        else if (LOOKUP_COMPARE_FUNCTION(word, "-:") == 0)
-        {
-            char* keyword;
-            if ((keyword = strsep(&remaining_to_read, " ")) != NULL)
-            {
-                user_dict_unassign(keyword, user_dict);
-            }
-        }
-        else if (LOOKUP_COMPARE_FUNCTION(word, "IF") == 0)
-        {
-            char* body;
-            if ((body = strsep(&remaining_to_read, "THEN")) != NULL)
-            {
-            }
-        }
-        else
-        {
-            printf("%s ?\n", word);
-        }
+        
+        ite = ite->next_word;
     }
 }
