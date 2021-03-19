@@ -36,6 +36,8 @@ word_node* _break_string_into_tokens(char* src_cpy, char* saveptr, char* token)
  */
 word_node* break_string_into_tokens(char* src)
 {
+    if(src == NULL)
+        return NULL;
     char* src_cpy = malloc(strlen(src));
     strcpy(src_cpy, src);
     char* saveptr;
