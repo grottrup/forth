@@ -9,11 +9,6 @@ word_node* word_node_ctor(const char* word, word_node* next)
     return node;
 }
 
-/* 
-* Token has allocated memory equavalent to src_cpy, so it also has allocated memory for
-* the full lenght of the source string.
-* This allocates only the space needed for the token.
-*/
 word_node* _break_string_into_tokens(char* src_cpy, char* saveptr, char* token)
 {
     word_node* node = NULL;
@@ -22,13 +17,13 @@ word_node* _break_string_into_tokens(char* src_cpy, char* saveptr, char* token)
         char* token_copy = (char *)malloc(3000); // malloc(strlen(token));
         if(token_copy)
         {
-            strcpy(token_copy, token);
-            token = strtok_r(NULL, " ", &saveptr);
-            if(token)
-            {
+            strcpy(token_copy, token); // This allocates only the space needed for the token.
+            token = strtok_r(NULL, " ", &saveptr); // TODO: token causes "degeneration"
+            //if(token)
+            //{
                 word_node* next = _break_string_into_tokens(src_cpy, saveptr, token);
                 node = word_node_ctor(token_copy, next);
-            }
+            //}
        
         }
     }
