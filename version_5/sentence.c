@@ -24,8 +24,12 @@ word_node* _break_string_into_tokens(char* src_cpy, char* saveptr, char* token)
         {
             strcpy(token_copy, token);
             token = strtok_r(NULL, " ", &saveptr);
-            word_node* next = _break_string_into_tokens(src_cpy, saveptr, token);
-            node = word_node_ctor(token_copy, next);
+            if(token)
+            {
+                word_node* next = _break_string_into_tokens(src_cpy, saveptr, token);
+                node = word_node_ctor(token_copy, next);
+            }
+       
         }
     }
     return node;
