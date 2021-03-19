@@ -36,7 +36,7 @@ word_node* _break_string_into_tokens(char* src_cpy, char* saveptr, char* token)
  */
 word_node* break_string_into_tokens(char* src)
 {
-    char* dest = malloc(100); //malloc(strlen(src)); //+1
+    char* dest = (char *)malloc(30); //malloc(strlen(src)); //+1
     word_node* tokens = NULL;
     if(dest)
     {
