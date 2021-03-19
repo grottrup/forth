@@ -9,27 +9,21 @@ word_node* word_node_ctor(const char* word, word_node* next)
     return node;
 }
 
-word_node* _break_string_into_tokens(char* src_cpy, char* saveptr, word_node* node, char* token)
+/* 
+* Token has allocated memory equavalent to src_cpy, so it also has allocated memory for
+* the full lenght of the source string.
+* This allocates only the space needed for the token.
+*/
+word_node* _break_string_into_tokens(char* src_cpy, char* saveptr, char* token)
 {
-    if (saveptr == NULL) // does this only happens the first time?
-        token = strtok_r(src_cpy, " ", &saveptr);
-    else
-        token = strtok_r(NULL, " ", &saveptr);
-
-    if (token == NULL) /* base case: add NULL tail*/
+    word_node* node = NULL;
+    if(token != NULL) 
     {
-        node = NULL;
-    }
-    else /* inductive step: add word node */
-    {
-        /* 
-         * Token has allocated memory equavalent to src_cpy, so it also has allocated memory for
-         * the full lenght of the source string.
-         * This allocates only the space needed for the token.
-         */
         char* token_copy = malloc(strlen(token));
         strcpy(token_copy, token);
-        node = word_node_ctor(token_copy, _break_string_into_tokens(src_cpy, saveptr, NULL, NULL)); //i intended to do more refactoring. NULL may be removed if i do not get around to it
+        token = strtok_r(NULL, " ", &saveptr);
+        word_node* next = _break_string_into_tokens(src_cpy, saveptr, token);
+        node = word_node_ctor(token_copy, next);
     }
     return node;
 }
@@ -44,7 +38,9 @@ word_node* break_string_into_tokens(char* src)
 {
     char* src_cpy = malloc(strlen(src));
     strcpy(src_cpy, src);
-    word_node* tokens = _break_string_into_tokens(src_cpy, NULL, NULL, NULL);
+    char* saveptr;
+    char* token = strtok_r(src_cpy, " ", &saveptr);
+    word_node* tokens = _break_string_into_tokens(src_cpy, saveptr, token);
     free(src_cpy);
     return tokens;
 }
