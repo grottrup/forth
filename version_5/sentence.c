@@ -19,11 +19,14 @@ word_node* _break_string_into_tokens(char* src_cpy, char* saveptr, char* token)
     word_node* node = NULL;
     if(token != NULL) 
     {
-        char* token_copy = malloc(strlen(token));
-        strcpy(token_copy, token);
-        token = strtok_r(NULL, " ", &saveptr);
-        word_node* next = _break_string_into_tokens(src_cpy, saveptr, token);
-        node = word_node_ctor(token_copy, next);
+        char* token_copy = (char *)malloc(30); // malloc(strlen(token));
+        if(token_copy)
+        {
+            strcpy(token_copy, token);
+            token = strtok_r(NULL, " ", &saveptr);
+            word_node* next = _break_string_into_tokens(src_cpy, saveptr, token);
+            node = word_node_ctor(token_copy, next);
+        }
     }
     return node;
 }
@@ -36,8 +39,8 @@ word_node* _break_string_into_tokens(char* src_cpy, char* saveptr, char* token)
  */
 word_node* break_string_into_tokens(char* src)
 {
-    char* dest = (char *)malloc(30); //malloc(strlen(src)); //+1
     word_node* tokens = NULL;
+    char* dest = (char *)malloc(30); //malloc(strlen(src)); //+1
     if(dest)
     {
         strcpy(dest, src);
