@@ -30,6 +30,23 @@ word_node* _break_string_into_tokens(char* src_cpy, char* saveptr, char* token)
  * @param src original string
  * @return word_node* a word/token with a link to the next word
  */
+word_node* break_string_into_tokens2(char* src)
+{
+    word_node* tokens = NULL;
+    char* dest, delimiter, saveptr;
+    delimiter = " ";
+     for (dest=malloc(64); token == NULL; dest = NULL) {
+        token = strtok_r(dest, delimiter, &saveptr);
+     }
+    return tokens;
+}
+
+/**
+ * @brief
+ * Turn a string with whitespace into a linked list of words.
+ * @param src original string
+ * @return word_node* a word/token with a link to the next word
+ */
 word_node* break_string_into_tokens(char* src)
 {
     word_node* tokens = NULL;
