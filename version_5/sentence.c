@@ -18,7 +18,7 @@ word_node* _break_string_into_tokens(char* src_cpy, char* saveptr, char* token)
         if(token_copy)
         {
             strcpy(token_copy, token); // This allocates only the space needed for the token.
-            token = strtok_r(NULL, " ", &saveptr); // TODO: token causes "degeneration"
+            char* token2 = strtok_r(NULL, " ", &saveptr); // TODO: token causes "degeneration"
             if(token != NULL && saveptr != NULL)
             {
                 word_node* next = _break_string_into_tokens(src_cpy, saveptr, token);
