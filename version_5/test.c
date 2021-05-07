@@ -54,6 +54,25 @@ void test_arithmetics(void)
     free_stack(&s);
 }
 
+void test_tokens(void)
+{
+    user_dict* ud = user_dict_initialize();
+    sys_dict* sd = sys_dict_initialize();
+    stack si;
+    init_stack(&si);
+    stack* s = &si;
+
+    // ADD A USER ENTRY
+    if (_SHOW_AUTO_TESTS) printf("~ ADD ~\n");
+    char* str = "1 2 3 + -";
+    word_node* list = break_string_into_tokens(str);
+    for(word_node* ite = list ;ite != NULL; ite = ite->next_word)
+    {
+        printf("%s",ite->word);
+    }
+}
+
+//refactor. we need unit tests, so we can actually spot where something goes wrong
 void test_dictionary(void)
 {
     user_dict* ud = user_dict_initialize();
@@ -97,17 +116,17 @@ void test_dictionary(void)
         assert(pop(s) == -2);
     }
 
-    {
+    // {
     /// TEST PARSER ON USER ENTRY
-        if (_SHOW_AUTO_TESTS) printf("~ PARSE ~\n");
-        if (_SHOW_AUTO_TESTS) {
-            printf("Parser input: \n");
-            print_list(words);
-        }
-        parse(words, s, sd, ud); //! change parser?
-        if (_SHOW_AUTO_TESTS) print_stack(s);
-        assert(pop(s) == -4);
-    }
+    //     if (_SHOW_AUTO_TESTS) printf("~ PARSE ~\n");
+    //     if (_SHOW_AUTO_TESTS) {
+    //         printf("Parser input: \n");
+    //         print_list(words);
+    //     }
+    //     parse(words, s, sd, ud); //! change parser?
+    //     if (_SHOW_AUTO_TESTS) print_stack(s);
+    //     assert(pop(s) == -4);
+    // }
 
     /// REMOVE USER ENTRY
     // if (_SHOW_AUTO_TESTS) printf("~ REMOVE ~\n");
@@ -115,7 +134,8 @@ void test_dictionary(void)
     // assert(!user_dict_entry_exists("test", ud));
 }
 
-void test_sentence() {
+void test_sentence() 
+{
     {/* Token test */
     char* str = "Hello World. What a nice day.";
     word_node* list = break_string_into_tokens(str);
@@ -176,23 +196,24 @@ void test_sentence() {
 void auto_test() {
     if (_SHOW_AUTO_TESTS) printf("~ INIT ~\n");
     test_arithmetics(); // temporary placement. clean up other tests...
+    test_tokens();
     test_dictionary();
-    {
-        stack s;
-        init_stack(&s);
-        user_dict* ud = user_dict_initialize();
-        sys_dict* sd = sys_dict_initialize();
-        char* str = ".\" hej du \" .\" hi you \""; // pop two and check that they are the same
-        word_node* list = break_string_into_tokens(str);
+    // {
+    //     stack s;
+    //     init_stack(&s);
+    //     user_dict* ud = user_dict_initialize();
+    //     sys_dict* sd = sys_dict_initialize();
+    //     char* str = ".\" hej du \" .\" hi you \""; // pop two and check that they are the same
+    //     word_node* list = break_string_into_tokens(str);
         
-        word_node* ite = list;
-        while(ite != NULL)
-        {
-            parse(ite, &s, sd, ud); // refactor parse to be recursive // parse(list, &s, sd, ud);
-            ite = ite->next_word;
-        }
-        free_stack(&s);
-    }
+    //     word_node* ite = list;
+    //     while(ite != NULL)
+    //     {
+    //         parse(ite, &s, sd, ud); // refactor parse to be recursive // parse(list, &s, sd, ud);
+    //         ite = ite->next_word;
+    //     }
+    //     free_stack(&s);
+    // }
     test_sentence();
 }
 
