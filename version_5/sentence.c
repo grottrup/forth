@@ -12,33 +12,22 @@ word_node* word_node_ctor(const char* word, word_node* next)
 word_node* _break_string_into_tokens(char* src_cpy, char* saveptr, char* token)
 {
     word_node* node = NULL;
-    char* dest_token = (char *)malloc(64); // malloc(strlen(token));
     if(token != NULL) 
     {
-        strcpy(dest_token, token); // This allocates only the space needed for the token.
-        token = strtok_r(NULL, " ", &saveptr); // TODO: token causes "degeneration"
-        if (token == NULL) return node;
-        word_node* next = _break_string_into_tokens(src_cpy, saveptr, token);
-        node = word_node_ctor(dest_token, next);
+        char* token_copy = malloc(strlen(token));
+        if(token_copy)
+        {
+            strcpy(token_copy, token);
+            token = strtok_r(NULL, " ", &saveptr);
+            if(token)
+            {
+                word_node* next = _break_string_into_tokens(src_cpy, saveptr, token);
+                node = word_node_ctor(token_copy, next);
+            }
+       
+        }
     }
     return node;
-}
-
-/**
- * @brief
- * Turn a string with whitespace into a linked list of words.
- * @param src original string
- * @return word_node* a word/token with a link to the next word
- */
-word_node* break_string_into_tokens2(char* src)
-{
-    word_node* tokens = NULL;
-    char* dest, delimiter, saveptr;
-    delimiter = " ";
-     for (dest=malloc(64); token == NULL; dest = NULL) {
-        token = strtok_r(dest, delimiter, &saveptr);
-     }
-    return tokens;
 }
 
 /**
@@ -50,7 +39,7 @@ word_node* break_string_into_tokens2(char* src)
 word_node* break_string_into_tokens(char* src)
 {
     word_node* tokens = NULL;
-    char* dest = (char *)malloc(3000); //malloc(strlen(src)); //+1
+    char* dest = malloc(strlen(src));
     if(dest)
     {
         strcpy(dest, src);
